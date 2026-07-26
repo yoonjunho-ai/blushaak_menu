@@ -3,3 +3,6 @@ node_modules/
 *.log
 uploads/promo_*.mp4
 uploads/poster_*.png
+
+.vercel
+.env*

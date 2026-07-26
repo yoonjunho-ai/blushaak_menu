@@ -1,8 +1,8 @@
 {
   "version": 2,
+  "framework": null,
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/", "destination": "/public/display.html" },
     { "source": "/display", "destination": "/public/display.html" },
     { "source": "/admin", "destination": "/public/admin.html" }
   ]

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blu Shaak Digital Signage Display</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link rel="stylesheet" href="/css/display.css">
+</head>
+<body>
+  <!-- Main Display Screen Wrapper -->
+  <div id="signage-root">
+
+    <!-- Clean 50-inch Signage Header (11vh) -->
+    <header class="signage-header">
+      <div class="header-left">
+        <img src="/assets/logo.svg" alt="Blu Shaak Logo" class="brand-logo">
+      </div>
+      <div class="header-center">
+        <h1 id="screen-title" class="screen-title">SIGNATURE & COFFEE</h1>
+        <span id="screen-subtitle" class="screen-subtitle">시그니처 & 커피 메뉴</span>
+      </div>
+      <div class="header-right">
+        <div id="current-clock" class="digital-clock">00:00</div>
+      </div>
+    </header>
+
+    <!-- Phase A: Menu Grid View (89vh) -->
+    <main id="menu-grid-view" class="menu-grid-view">
+      <div id="menu-grid-container" class="menu-grid-container">
+        <!-- 8 Hero Menu cards injected dynamically -->
+      </div>
+    </main>
+
+    <!-- Phase B: Promotional Video View (Full Canvas) -->
+    <section id="promo-video-view" class="promo-video-view">
+      <video id="promo-video" class="promo-video" muted playsinline preload="auto">
+        <source id="promo-video-source" src="/assets/video/promo_screen_1.mp4" type="video/mp4">
+        Your browser does not support HTML5 video playback.
+      </video>
+      <div class="video-overlay-title">
+        <span class="video-brand-tag">BLU SHAAK SIGNATURE</span>
+        <h2 id="video-headline">SUMMER SEASONAL CAMPAIGN</h2>
+      </div>
+    </section>
+
+    <!-- Phase B: Promotional Poster Image View (Full Canvas) -->
+    <section id="promo-image-view" class="promo-image-view">
+      <img id="promo-image" class="promo-image" src="/assets/promo/promo_screen_1.svg" alt="Seasonal Poster Image">
+      <div class="video-overlay-title">
+        <span class="video-brand-tag">BLU SHAAK SEASONAL POSTER</span>
+        <h2 id="promo-image-headline">SPECIAL SEASON HIGHLIGHT</h2>
+      </div>
+    </section>
+
+    <!-- Emergency Ticker Banner (Bottom Overlay) -->
+    <footer id="ticker-banner" class="ticker-banner hidden">
+      <div class="ticker-icon">📢 ANNOUNCEMENT</div>
+      <div class="ticker-content">
+        <div id="ticker-text" class="ticker-text-scroll">
+          블루샥에 오신 것을 환영합니다!
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="/js/display.js"></script>
+</body>
+</html>
