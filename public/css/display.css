@@ -209,9 +209,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #F5F3EF !important;
+  /* background: #F5F3EF !important;
   border-radius: 10px !important;
-  overflow: hidden !important;
+  overflow: hidden !important; */
   border: 1px solid rgba(0, 43, 73, 0.04) !important;
 }
 
@@ -283,13 +283,14 @@ body {
 .grid-15 .menu-name-en { font-size: 0.8rem; }
 .grid-15 .menu-price { font-size: 1.5rem; }
 
-/* 18-Item Tuning (Clean Framed JPG Photo Layout, Zero Overlap) */
-.grid-18 .menu-card { padding: 6px 8px; gap: 8px; border-radius: 12px !important; }
-.grid-18 .menu-img-wrapper { width: 90px; max-height: 135px; border-radius: 8px !important; }
-.grid-18 .menu-name-kr { font-size: 1.18rem; letter-spacing: -0.6px; font-weight: 900; }
-.grid-18 .menu-name-en { font-size: 0.75rem; font-weight: 600; }
-.grid-18 .menu-price { font-size: 1.4rem; font-weight: 900; }
-.grid-18 .badge { padding: 2px 6px; font-size: 0.65rem; }
+/* 18-Item Tuning (Clean 6x3 Grid, Zero Overflow) */
+.grid-18 .menu-card { padding: 8px 10px; gap: 10px; border-radius: 14px !important; }
+.grid-18 .menu-img-wrapper { width: 95px; max-height: 140px; border-radius: 10px !important; }
+.grid-18 .menu-img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
+.grid-18 .menu-name-kr { font-size: 1.25rem; letter-spacing: -0.5px; font-weight: 900; }
+.grid-18 .menu-name-en { font-size: 0.8rem; font-weight: 600; }
+.grid-18 .menu-price { font-size: 1.5rem; font-weight: 900; }
+.grid-18 .badge { padding: 2px 7px; font-size: 0.68rem; }
 
 /* Sold Out Overlay */
 .menu-card.sold-out {

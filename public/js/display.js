@@ -46,7 +46,7 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// Render Menu Cards for current screen (Top 8 Hero Items for 50-inch 2m readability)
+// Render Menu Cards for current screen
 function renderMenuGrid(displayData) {
   if (!displayData) return;
 
@@ -60,15 +60,21 @@ function renderMenuGrid(displayData) {
 
   const itemCount = displayData.items.length;
   let gridClass = 'grid-12';
+  let maxItems = 12;
   if (itemCount >= 16) {
     gridClass = 'grid-18';
+    maxItems = 18;
   } else if (itemCount >= 13) {
     gridClass = 'grid-15';
+    maxItems = 15;
   }
   menuGridContainerEl.className = `menu-grid-container ${gridClass}`;
+  menuGridContainerEl.innerHTML = '';
 
-  // Render all 12 items for full menu coverage in 4x3 grid
-  displayData.items.forEach(item => {
+  const itemsToRender = displayData.items.slice(0, maxItems);
+
+  // Render items fitting the 6x3 grid
+  itemsToRender.forEach(item => {
     const card = document.createElement('div');
     card.className = `menu-card ${item.is_sold_out ? 'sold-out' : ''} ${item.is_signature ? 'signature-item' : ''}`;
     card.dataset.itemId = item.id;
