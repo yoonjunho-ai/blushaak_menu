@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "rewrites": [
-    { "source": "/display", "destination": "/display.html" },
-    { "source": "/admin", "destination": "/admin.html" },
-    { "source": "/api/(.*)", "destination": "/api/index.js" }
+  "cleanUrls": true,
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/api/index.js" },
+    { "src": "/display", "dest": "/public/display.html" },
+    { "src": "/admin", "dest": "/public/admin.html" },
+    { "src": "/(.*)", "dest": "/public/$1" }
   ]
 }
