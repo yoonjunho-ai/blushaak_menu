@@ -80,7 +80,9 @@ app.get('/admin', (req, res) => {
 
 // REST APIs
 app.get('/api/config', (req, res) => {
-  res.json(loadConfig() || menuConfig);
+  const loaded = loadConfig();
+  if (loaded) menuConfig = loaded;
+  res.json(menuConfig);
 });
 
 // Update item state (is_sold_out, price, badge, name_kr, etc.)
