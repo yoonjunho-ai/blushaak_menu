@@ -50,7 +50,7 @@
           "name_kr": "샥 라떼",
           "name_en": "Shaak Latte",
           "price": "3.4",
-          "image": "/assets/menu/c1_1785027861573.png",
+          "image": "/assets/menu/shaak-latte.jpg",
           "is_signature": true,
           "badge": "BEST",
           "is_sold_out": false
@@ -60,7 +60,7 @@
           "name_kr": "피넛 라떼",
           "name_en": "Peanut Latte",
           "price": "3.8",
-          "image": "/assets/menu/c2_1785027881620.png",
+          "image": "/assets/menu/peanut-latte.jpg",
           "is_signature": true,
           "badge": "BEST",
           "is_sold_out": true
@@ -70,7 +70,7 @@
           "name_kr": "아메리카노",
           "name_en": "Americano",
           "price": "2.5",
-          "image": "/assets/menu/americano.png",
+          "image": "/assets/menu/colombian-americano.jpg",
           "badge": null,
           "is_sold_out": false
         },
@@ -79,7 +79,7 @@
           "name_kr": "화이트 아메리카노",
           "name_en": "White Americano",
           "price": "3.4",
-          "image": "/assets/menu/white_americano.png",
+          "image": "/assets/menu/white-americano.jpg",
           "badge": null,
           "is_sold_out": false
         },
@@ -88,7 +88,7 @@
           "name_kr": "피넛 콜드브루",
           "name_en": "Peanut Cold Brew",
           "price": "3.9",
-          "image": "/assets/menu/peanut_coldbrew.png",
+          "image": "/assets/menu/peanut-latte.jpg",
           "badge": null,
           "is_sold_out": false
         },
@@ -97,7 +97,7 @@
           "name_kr": "카페 라떼",
           "name_en": "Cafe Latte",
           "price": "3.6",
-          "image": "/assets/menu/cafe_latte.png",
+          "image": "/assets/menu/cafe-latte.jpg",
           "badge": null,
           "is_sold_out": false
         },
@@ -106,7 +106,7 @@
           "name_kr": "카페 모카",
           "name_en": "Cafe Mocha",
           "price": "4.5",
-          "image": "/assets/menu/cafe_mocha.png",
+          "image": "/assets/menu/cafe-mocha.jpg",
           "badge": null,
           "is_sold_out": false
         },
@@ -115,7 +115,7 @@
           "name_kr": "제로 바닐라 라떼",
           "name_en": "Zero Vanilla Latte",
           "price": "4.3",
-          "image": "/assets/menu/zero_vanilla.png",
+          "image": "/assets/menu/zero-vanilla-latte.jpg",
           "badge": "NEW",
           "is_sold_out": false
         },
@@ -124,7 +124,7 @@
           "name_kr": "말차 카페 라떼",
           "name_en": "Matcha Cafe Latte",
           "price": "4.5",
-          "image": "/assets/menu/matcha_cafe_latte.png",
+          "image": "/assets/menu/jeju-matcha-cafe-latte.jpg",
           "badge": null,
           "is_sold_out": false
         },
@@ -133,7 +133,7 @@
           "name_kr": "바닐라 빈 라떼",
           "name_en": "Vanilla Bean Latte",
           "price": "4.1",
-          "image": "/assets/menu/vanilla_bean_latte.png",
+          "image": "/assets/menu/vanilla-bean-latte.jpg",
           "badge": null,
           "is_sold_out": false
         },
@@ -142,7 +142,7 @@
           "name_kr": "콜드브루",
           "name_en": "Cold Brew",
           "price": "4.3",
-          "image": "/assets/menu/cold_brew.png",
+          "image": "/assets/menu/cold-brew-americano.jpg",
           "badge": null,
           "is_sold_out": false
         },
@@ -151,7 +151,7 @@
           "name_kr": "에스프레소",
           "name_en": "Espresso",
           "price": "2.3",
-          "image": "/assets/menu/espresso.png",
+          "image": "/assets/menu/espresso.jpg",
           "badge": null,
           "is_sold_out": false
         },
@@ -160,7 +160,7 @@
           "name_kr": "디카페인 아메리카노",
           "name_en": "Decaf Americano",
           "price": "2.8",
-          "image": "/assets/menu/decaf_americano.png",
+          "image": "/assets/menu/decaf-americano.jpg",
           "badge": "NEW",
           "is_sold_out": false
         },
@@ -169,7 +169,7 @@
           "name_kr": "디카페인 카페 라떼",
           "name_en": "Decaf Cafe Latte",
           "price": "3.9",
-          "image": "/assets/menu/decaf_latte.png",
+          "image": "/assets/menu/cafe-latte.jpg",
           "badge": null,
           "is_sold_out": false
         },
@@ -178,7 +178,7 @@
           "name_kr": "돌체 라떼",
           "name_en": "Dolce Latte",
           "price": "4.3",
-          "image": "/assets/menu/dolce_latte.png",
+          "image": "/assets/menu/dolce-latte.jpg",
           "badge": "POPULAR",
           "is_sold_out": false
         },
@@ -187,7 +187,7 @@
           "name_kr": "돌체 콜드브루",
           "name_en": "Dolce Cold Brew",
           "price": "4.5",
-          "image": "/assets/menu/dolce_coldbrew.png",
+          "image": "/assets/menu/dolce-cold-brew-latte.jpg",
           "badge": null,
           "is_sold_out": false
         },
@@ -196,7 +196,7 @@
           "name_kr": "아인슈페너",
           "name_en": "Einspanner",
           "price": "4.2",
-          "image": "/assets/menu/einspanner.png",
+          "image": "/assets/menu/shaak-latte.jpg",
           "badge": "BEST",
           "is_sold_out": false
         },
@@ -205,7 +205,7 @@
           "name_kr": "카라멜 마키아또",
           "name_en": "Caramel Macchiato",
           "price": "4.3",
-          "image": "/assets/menu/caramel_macchiato.png",
+          "image": "/assets/menu/caramel-macchiato.jpg",
           "badge": null,
           "is_sold_out": false
         },
@@ -214,7 +214,7 @@
           "name_kr": "시나몬 카페 라떼",
           "name_en": "Cinnamon Cafe Latte",
           "price": "4.4",
-          "image": "/assets/menu/cinnamon_latte.png",
+          "image": "/assets/menu/cinnamon-cafe-latte.jpg",
           "badge": null,
           "is_sold_out": false
         },
@@ -223,7 +223,7 @@
           "name_kr": "콜드브루 라떼",
           "name_en": "Cold Brew Latte",
           "price": "4.5",
-          "image": "/assets/menu/coldbrew_latte.png",
+          "image": "/assets/menu/cold-brew-latte.jpg",
           "badge": null,
           "is_sold_out": false
         },
@@ -232,7 +232,7 @@
           "name_kr": "카페 시트러스",
           "name_en": "Cafe Citrus",
           "price": "4.5",
-          "image": "/assets/menu/cafe_citrus.png",
+          "image": "/assets/menu/cafe-citrus.jpg",
           "badge": "NEW",
           "is_sold_out": false
         },
@@ -241,7 +241,7 @@
           "name_kr": "카페 피에노",
           "name_en": "Cafe Pieno",
           "price": "3.5",
-          "image": "/assets/menu/cafe_pieno.png",
+          "image": "/assets/menu/cafe-pieno.jpg",
           "badge": null,
           "is_sold_out": false
         },
@@ -250,7 +250,7 @@
           "name_kr": "아샷추",
           "name_en": "Ashatchu Iced Tea",
           "price": "3.5",
-          "image": "/assets/menu/ashatchu.png",
+          "image": "/assets/menu/ah-shot-chu.jpg",
           "badge": "BEST",
           "is_sold_out": false
         },
@@ -259,7 +259,7 @@
           "name_kr": "1리터 아메리카노",
           "name_en": "1L Americano",
           "price": "5.0",
-          "image": "/assets/menu/1l_americano.png",
+          "image": "/assets/menu/colombian-americano.jpg",
           "badge": "POPULAR",
           "is_sold_out": false
         }
