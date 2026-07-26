@@ -41,7 +41,7 @@ body {
 /* Streamlined Signage Header (Fixed 85px) */
 .signage-header {
   width: 100%;
-  height: 85px;
+  height: 100px;
   flex-shrink: 0;
   background: var(--header-bg);
   color: var(--header-text);
@@ -60,7 +60,7 @@ body {
 }
 
 .brand-logo {
-  height: 44px;
+  height: 64px;
   width: auto;
   filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3));
 }
@@ -74,7 +74,7 @@ body {
 }
 
 .screen-title {
-  font-size: 2.2rem;
+  font-size: 2.9rem;
   font-weight: 900;
   letter-spacing: 2px;
   color: #FFFFFF;
@@ -83,7 +83,7 @@ body {
 }
 
 .screen-subtitle {
-  font-size: 1rem;
+  font-size: 1.25rem;
   font-weight: 600;
   color: #93C5FD;
   letter-spacing: 1px;
@@ -113,7 +113,7 @@ body {
   width: 100%;
   flex: 1;
   min-height: 0;
-  padding: 14px 20px;
+  padding: 14px 20px 66px 20px;
   background-color: var(--bg-color);
   transition: opacity 0.5s ease-in-out;
   overflow: hidden;
@@ -403,17 +403,20 @@ body {
   to { transform: scale(1.05); }
 }
 
-/* Ticker Banner Overlay (Positioned in Flex Container Flow) */
+/* Ticker Banner Overlay — pinned to the bottom of the viewport independent of
+   flex flow, so it stays put whether the menu grid or a promo video/poster
+   (both full-screen absolute layers) is the active phase. */
 .ticker-banner {
-  position: relative;
+  position: absolute;
+  left: 0;
+  bottom: 0;
   width: 100%;
   height: 52px;
-  flex-shrink: 0;
   background: rgba(0, 43, 73, 0.96);
   color: #FFFFFF;
   display: flex;
   align-items: center;
-  z-index: 30;
+  z-index: 40;
   border-top: 3px solid var(--accent-blue);
   box-shadow: 0 -4px 15px rgba(0,0,0,0.3);
 }

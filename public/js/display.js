@@ -54,6 +54,9 @@ function renderMenuGrid(displayData) {
   if (screenSubtitleEl) {
     screenSubtitleEl.textContent = displayData.subtitle || '';
   }
+  if (displayData.header_color) {
+    document.documentElement.style.setProperty('--header-bg', displayData.header_color);
+  }
 
   const itemCount = displayData.items.length;
   let gridClass = 'grid-12';

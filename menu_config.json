@@ -39,6 +39,7 @@
       "display_id": 1,
       "title": "SIGNATURE & COFFEE",
       "subtitle": "시그니처 & 커피 메뉴",
+      "header_color": "#002B49",
       "categories": [
         "SIGNATURE",
         "COFFEE"
@@ -268,6 +269,7 @@
       "display_id": 2,
       "title": "BEVERAGE (LATTE & ADE)",
       "subtitle": "음료 (라떼 & 에이드)",
+      "header_color": "#0B4F6C",
       "categories": [
         "LATTE",
         "ADE"
@@ -387,6 +389,7 @@
       "display_id": 3,
       "title": "TEA & BLENDED",
       "subtitle": "티 & 블렌디드",
+      "header_color": "#5B3A29",
       "categories": [
         "TEA",
         "BLENDED"
@@ -560,6 +563,7 @@
       "display_id": 4,
       "title": "SHAKE & BAKERY DESSERT",
       "subtitle": "쉐이크 & 디저트 베이커리",
+      "header_color": "#6D2E46",
       "categories": [
         "SHAKE",
         "BUBBLE_TEA",
