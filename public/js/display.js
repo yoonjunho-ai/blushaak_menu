@@ -61,7 +61,10 @@ function renderMenuGrid(displayData) {
   const itemCount = displayData.items.length;
   let gridClass = 'grid-12';
   let maxItems = 12;
-  if (itemCount >= 16) {
+  if (itemCount >= 18) {
+    gridClass = 'grid-20';
+    maxItems = 20;
+  } else if (itemCount >= 15) {
     gridClass = 'grid-18';
     maxItems = 18;
   } else if (itemCount >= 13) {

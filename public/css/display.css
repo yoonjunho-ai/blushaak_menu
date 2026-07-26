@@ -283,7 +283,7 @@ body {
 .grid-15 .menu-name-en { font-size: 0.8rem; }
 .grid-15 .menu-price { font-size: 1.5rem; }
 
-/* 18-Item Tuning (Clean 6x3 Grid, Zero Overflow) */
+/* 18-Item Tuning (6x3) */
 .grid-18 .menu-card { padding: 8px 10px; gap: 10px; border-radius: 14px !important; }
 .grid-18 .menu-img-wrapper { width: 95px; max-height: 140px; border-radius: 10px !important; }
 .grid-18 .menu-img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
@@ -291,6 +291,67 @@ body {
 .grid-18 .menu-name-en { font-size: 0.8rem; font-weight: 600; }
 .grid-18 .menu-price { font-size: 1.5rem; font-weight: 900; }
 .grid-18 .badge { padding: 2px 7px; font-size: 0.68rem; }
+
+/* 20-Item Grid (5x4) - Optimal 50-inch 16:9 Signage Ratio (1.7:1 Wide Horizontal Cards) */
+.menu-grid-container.grid-20 {
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 10px 14px;
+}
+
+.grid-20 .menu-card {
+  padding: 8px 12px;
+  gap: 12px;
+  border-radius: 14px !important;
+  background: #FFFFFF !important;
+  box-shadow: 0 4px 12px rgba(0, 43, 73, 0.05) !important;
+  border: 1px solid rgba(0, 43, 73, 0.08) !important;
+  height: 100%;
+  overflow: hidden !important;
+}
+
+.grid-20 .menu-img-wrapper {
+  width: 110px;
+  height: 100%;
+  max-height: 175px;
+  border-radius: 10px !important;
+  flex-shrink: 0;
+  background: #F5F3EF !important;
+  border: 1px solid rgba(0, 43, 73, 0.04) !important;
+}
+
+.grid-20 .menu-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.grid-20 .menu-name-kr {
+  font-size: 1.35rem;
+  letter-spacing: -0.5px;
+  font-weight: 900;
+  color: var(--text-main);
+  line-height: 1.2;
+}
+
+.grid-20 .menu-name-en {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.grid-20 .menu-price {
+  font-size: 1.65rem;
+  font-weight: 900;
+  color: var(--accent-blue);
+  letter-spacing: -0.5px;
+}
+
+.grid-20 .badge {
+  padding: 3px 8px;
+  font-size: 0.72rem;
+}
 
 /* Sold Out Overlay */
 .menu-card.sold-out {
