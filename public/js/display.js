@@ -261,6 +261,28 @@ function connectWebSocket() {
   };
 }
 
+// HTTP Polling Fallback for Vercel Serverless / Cloud Hosting
+setInterval(async () => {
+  if (!socket || socket.readyState !== WebSocket.OPEN) {
+    try {
+      const res = await fetch('/api/sync-state');
+      if (res.ok) {
+        const data = await res.json();
+        if (data.config && !currentMenuConfig) {
+          currentMenuConfig = data.config;
+          const displayData = currentMenuConfig.displays.find(d => d.display_id === displayId);
+          renderMenuGrid(displayData);
+          setupPromoMedia(currentMenuConfig.promotional_campaigns);
+          updateTicker(currentMenuConfig.system.ticker);
+        }
+        if (data.active_step) handlePlaylistStepTransition(data.active_step, data.step_elapsed_sec);
+      }
+    } catch (e) {
+      // Silent catch
+    }
+  }
+}, 3000);
+
 // OFFLINE FALLBACK ENGINE (Local Clock Sync Math)
 // If network drops, all 4 screens compute state using Date.now() % 60000
 function startOfflineFallback() {

@@ -42,7 +42,7 @@ function saveConfig(config) {
   try {
     fs.writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2), 'utf-8');
   } catch (err) {
-    console.error('Error saving menu_config.json:', err);
+    console.warn('Config save notice (read-only environment or Vercel serverless):', err.message);
   }
 }
 
@@ -375,25 +375,64 @@ setInterval(() => {
     accumulated += stepDuration;
   }
 
-  // Broadcast SYNC_STATE payload to all display clients
-  broadcast({
+// HTTP Sync State Endpoint for Vercel Serverless / Polling Fallback
+app.get('/api/sync-state', (req, res) => {
+  if (!menuConfig) return res.status(500).json({ error: 'Config not loaded' });
+
+  const isPaused = menuConfig.system.is_paused || false;
+  const speed = menuConfig.system.speed_multiplier || 1;
+
+  const rawSequence = menuConfig.system.playlist_sequence || [
+    { id: 'step_menu', type: 'MENU', name: '메뉴판', duration_sec: 40, enabled: true },
+    { id: 'step_video', type: 'VIDEO', name: '프로모션 동영상', duration_sec: 20, enabled: true }
+  ];
+  const activeSteps = rawSequence.filter(s => s.enabled !== false);
+  if (activeSteps.length === 0) {
+    activeSteps.push({ id: 'fallback', type: 'MENU', name: '메뉴판', duration_sec: 40, enabled: true });
+  }
+
+  const totalCycleSec = activeSteps.reduce((sum, s) => sum + (s.duration_sec || 5), 0);
+  const nowSec = Math.floor(Date.now() / 1000);
+  const cycleSec = isPaused ? cycleElapsedSec : (nowSec % totalCycleSec);
+
+  let accumulated = 0;
+  let activeStep = activeSteps[0];
+  let stepElapsedSec = 0;
+
+  for (const step of activeSteps) {
+    const stepDuration = step.duration_sec || 5;
+    if (cycleSec >= accumulated && cycleSec < accumulated + stepDuration) {
+      activeStep = step;
+      stepElapsedSec = cycleSec - accumulated;
+      break;
+    }
+    accumulated += stepDuration;
+  }
+
+  res.json({
     event: 'SYNC_STATE',
     timestamp: Date.now(),
+    config: menuConfig,
     active_step: activeStep,
     step_elapsed_sec: Math.floor(stepElapsedSec),
-    cycle_elapsed_sec: Math.floor(cycleElapsedSec),
+    cycle_elapsed_sec: Math.floor(cycleSec),
     total_cycle_sec: totalCycleSec,
     speed_multiplier: speed,
     is_paused: isPaused,
-    data_version: `v1.1`
+    data_version: 'v1.1'
   });
-}, 1000);
+});
 
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-  console.log(`=================================================`);
-  console.log(`🚀 Blu Shaak Signage WAS Server running on port ${PORT}`);
-  console.log(`🖥️  Display screens: http://localhost:${PORT}/display?id=1..4`);
-  console.log(`⚙️  Admin Dashboard: http://localhost:${PORT}/admin`);
-  console.log(`=================================================`);
-});
+
+if (!process.env.VERCEL) {
+  server.listen(PORT, () => {
+    console.log(`=================================================`);
+    console.log(`🚀 Blu Shaak Signage WAS Server running on port ${PORT}`);
+    console.log(`🖥️  Display screens: http://localhost:${PORT}/display?id=1..4`);
+    console.log(`⚙️  Admin Dashboard: http://localhost:${PORT}/admin`);
+    console.log(`=================================================`);
+  });
+}
+
+export default app;

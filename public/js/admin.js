@@ -79,6 +79,21 @@ function connectAdminWebSocket() {
   };
 }
 
+// HTTP Polling Fallback for Vercel Serverless
+setInterval(async () => {
+  if (!socket || socket.readyState !== WebSocket.OPEN) {
+    try {
+      const res = await fetch('/api/sync-state');
+      if (res.ok) {
+        const data = await res.json();
+        if (data.active_step) updateSyncStateUI(data);
+      }
+    } catch (e) {
+      // Silent catch
+    }
+  }
+}, 1500);
+
 // Render Full Admin UI
 function renderAdminUI() {
   if (!currentConfig) return;
