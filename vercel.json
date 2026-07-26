@@ -4,12 +4,17 @@
   "functions": {
     "api/index.js": {
       "includeFiles": "menu_config.json"
+    },
+    "server.js": {
+      "includeFiles": "menu_config.json"
     }
   },
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/index.js" },
     { "src": "/display", "dest": "/public/display.html" },
     { "src": "/admin", "dest": "/public/admin.html" },
+    { "src": "/favicon.ico", "dest": "/public/assets/logo.svg" },
+    { "src": "/favicon.png", "dest": "/public/assets/logo.svg" },
     { "src": "/(.*)", "dest": "/public/$1" }
   ]
 }

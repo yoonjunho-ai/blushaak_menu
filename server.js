@@ -1,9 +1,20 @@
 const express = require('express');
 const http = require('http');
-const { WebSocketServer, WebSocket } = require('ws');
 const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
+
+// Conditionally load ws (WebSockets) ONLY in local standalone server environments
+let WebSocketServer, WebSocket;
+if (!process.env.VERCEL) {
+  try {
+    const wsModule = require('ws');
+    WebSocketServer = wsModule.WebSocketServer;
+    WebSocket = wsModule.WebSocket;
+  } catch (err) {
+    console.warn('WebSocket module load notice:', err.message);
+  }
+}
 
 const CONFIG_PATH = path.join(__dirname, 'menu_config.json');
 
@@ -69,7 +80,7 @@ app.get('/admin', (req, res) => {
 
 // REST APIs
 app.get('/api/config', (req, res) => {
-  res.json(menuConfig);
+  res.json(loadConfig() || menuConfig);
 });
 
 // Update item state (is_sold_out, price, badge, name_kr, etc.)
@@ -262,12 +273,13 @@ app.post('/api/config/playlist', (req, res) => {
 let cycleElapsedSec = 0;
 
 function calculateSyncState() {
-  if (!menuConfig) return {};
+  const config = loadConfig() || menuConfig;
+  if (!config) return {};
 
-  const isPaused = menuConfig.system.is_paused || false;
-  const speed = menuConfig.system.speed_multiplier || 1;
+  const isPaused = config.system ? config.system.is_paused : false;
+  const speed = config.system ? config.system.speed_multiplier : 1;
 
-  const rawSequence = menuConfig.system.playlist_sequence || [
+  const rawSequence = (config.system && config.system.playlist_sequence) ? config.system.playlist_sequence : [
     { id: 'step_menu', type: 'MENU', name: '메뉴판', duration_sec: 40, enabled: true },
     { id: 'step_video', type: 'VIDEO', name: '프로모션 동영상', duration_sec: 20, enabled: true }
   ];
@@ -278,7 +290,7 @@ function calculateSyncState() {
 
   const totalCycleSec = activeSteps.reduce((sum, s) => sum + (s.duration_sec || 5), 0);
   const nowSec = Math.floor(Date.now() / 1000);
-  const cycleSec = isPaused ? cycleElapsedSec : (nowSec % totalCycleSec);
+  const cycleSec = isPaused ? 0 : (nowSec % totalCycleSec);
 
   let accumulated = 0;
   let activeStep = activeSteps[0];
@@ -297,7 +309,7 @@ function calculateSyncState() {
   return {
     event: 'SYNC_STATE',
     timestamp: Date.now(),
-    config: menuConfig,
+    config: config,
     active_step: activeStep,
     step_elapsed_sec: Math.floor(stepElapsedSec),
     cycle_elapsed_sec: Math.floor(cycleSec),
@@ -317,16 +329,17 @@ app.get('/api/sync-state', (req, res) => {
 const clients = new Map();
 
 function broadcast(data) {
+  if (process.env.VERCEL || !clients) return;
   const jsonStr = JSON.stringify(data);
   for (const [ws] of clients) {
-    if (ws.readyState === WebSocket.OPEN) {
+    if (ws && ws.readyState === 1) {
       ws.send(jsonStr);
     }
   }
 }
 
-// ONLY initialize standalone HTTP Server & WebSocketServer when running locally
-if (!process.env.VERCEL) {
+// ONLY initialize standalone HTTP Server & WebSocketServer when running locally (NOT on Vercel)
+if (!process.env.VERCEL && WebSocketServer) {
   const server = http.createServer(app);
   const wss = new WebSocketServer({ server, path: '/ws' });
 
