@@ -10,12 +10,21 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const CONFIG_PATH = path.join(__dirname, 'menu_config.json');
-const UPLOADS_DIR = path.join(__dirname, 'uploads');
-const PUBLIC_DIR = path.join(__dirname, 'public');
 
-if (!fs.existsSync(UPLOADS_DIR)) {
-  fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+// Use /tmp on Vercel read-only filesystem to avoid EROFS crash
+const UPLOADS_DIR = process.env.VERCEL
+  ? path.join('/tmp', 'uploads')
+  : path.join(__dirname, 'uploads');
+
+try {
+  if (!fs.existsSync(UPLOADS_DIR)) {
+    fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+  }
+} catch (err) {
+  console.warn('Upload directory creation notice:', err.message);
 }
+
+const PUBLIC_DIR = path.join(__dirname, 'public');
 
 // Multer storage configuration for promo video uploads
 const storage = multer.diskStorage({
@@ -81,7 +90,6 @@ app.post('/api/config/item', (req, res) => {
   Object.assign(item, updates);
   saveConfig(menuConfig);
 
-  // Broadcast menu update via WebSocket
   broadcast({
     event: 'MENU_UPDATE',
     display_id: displayId,
@@ -186,8 +194,6 @@ app.post('/api/upload-promo', upload.single('video'), (req, res) => {
     campaign.videos[`screen_${screenId}`] = fileUrl;
     saveConfig(menuConfig);
 
-    console.log(`🎬 Screen #${screenId} promo video updated to:`, fileUrl);
-
     broadcast({
       event: 'CAMPAIGN_UPDATE',
       campaigns: menuConfig.promotional_campaigns,
@@ -199,10 +205,10 @@ app.post('/api/upload-promo', upload.single('video'), (req, res) => {
   res.json({ success: true, videoUrl: fileUrl });
 });
 
-// Upload promo poster image for a screen (Poster 1 or Poster 2)
+// Upload promo poster image for a screen
 app.post('/api/upload-promo-image', uploadMenuImg.single('image'), (req, res) => {
   const screenId = Number(req.body.screenId) || 1;
-  const posterKey = req.body.posterKey || 'images_poster_1'; // 'images_poster_1' or 'images_poster_2'
+  const posterKey = req.body.posterKey || 'images_poster_1';
   if (!req.file) return res.status(400).json({ error: 'No image uploaded' });
 
   const fileUrl = `/assets/promo/${req.file.filename}`;
@@ -213,8 +219,6 @@ app.post('/api/upload-promo-image', uploadMenuImg.single('image'), (req, res) =>
   campaign[posterKey][`screen_${screenId}`] = fileUrl;
   saveConfig(menuConfig);
 
-  console.log(`🖼️ Screen #${screenId} [${posterKey}] promo poster image updated to:`, fileUrl);
-
   broadcast({
     event: 'CAMPAIGN_UPDATE',
     campaigns: menuConfig.promotional_campaigns,
@@ -224,7 +228,7 @@ app.post('/api/upload-promo-image', uploadMenuImg.single('image'), (req, res) =>
   res.json({ success: true, imageUrl: fileUrl, posterKey });
 });
 
-// Toggle Promo Mode (VIDEO vs IMAGE)
+// Toggle Promo Mode
 app.post('/api/config/promo-mode', (req, res) => {
   const { promo_mode, promo_image_duration_sec } = req.body;
   if (promo_mode) menuConfig.system.promo_mode = promo_mode;
@@ -240,82 +244,6 @@ app.post('/api/config/promo-mode', (req, res) => {
 
   res.json({ success: true, system: menuConfig.system });
 });
-
-const server = http.createServer(app);
-const wss = new WebSocketServer({ server, path: '/ws' });
-
-// Track connected clients & state machine loop variables
-const clients = new Map();
-let cycleElapsedSec = 0;
-let currentPhase = 'PHASE_A_MENU';
-let phaseElapsedSec = 0;
-
-wss.on('connection', (ws, req) => {
-  const urlParams = new URLSearchParams(req.url.split('?')[1]);
-  const displayId = urlParams.get('id') || '1';
-  const clientType = urlParams.get('type') || 'display'; // 'display' or 'admin'
-
-  const clientId = `client_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`;
-  clients.set(ws, { clientId, displayId, clientType, ip: req.socket.remoteAddress });
-
-  console.log(`🔌 Client connected: [Type: ${clientType}, DisplayID: ${displayId}]`);
-
-  // Send initial state to newly connected client
-  ws.send(JSON.stringify({
-    event: 'INIT_STATE',
-    timestamp: Date.now(),
-    config: menuConfig,
-    current_phase: currentPhase,
-    phase_elapsed_sec: phaseElapsedSec,
-    cycle_elapsed_sec: cycleElapsedSec
-  }));
-
-  // Send client list update to admin clients
-  broadcastClientStatus();
-
-  ws.on('message', (message) => {
-    try {
-      const data = JSON.parse(message);
-      if (data.event === 'PING') {
-        ws.send(JSON.stringify({ event: 'PONG', timestamp: Date.now() }));
-      }
-    } catch (e) {
-      console.error('Invalid WS payload:', e);
-    }
-  });
-
-  ws.on('close', () => {
-    console.log(`❌ Client disconnected: [ID: ${clientId}]`);
-    clients.delete(ws);
-    broadcastClientStatus();
-  });
-});
-
-function broadcast(data) {
-  const jsonStr = JSON.stringify(data);
-  for (const [ws] of clients) {
-    if (ws.readyState === WebSocket.OPEN) {
-      ws.send(jsonStr);
-    }
-  }
-}
-
-function broadcastClientStatus() {
-  const connectedDisplays = [];
-  for (const [, info] of clients) {
-    connectedDisplays.push({
-      clientId: info.clientId,
-      displayId: info.displayId,
-      clientType: info.clientType
-    });
-  }
-
-  broadcast({
-    event: 'CLIENT_STATUS',
-    clients: connectedDisplays,
-    timestamp: Date.now()
-  });
-}
 
 // Playlist Sequence Config Update
 app.post('/api/config/playlist', (req, res) => {
@@ -334,50 +262,11 @@ app.post('/api/config/playlist', (req, res) => {
   res.json({ success: true, playlist_sequence: menuConfig.system.playlist_sequence });
 });
 
-// Main Loop Clock (1 second interval)
-setInterval(() => {
-  if (!menuConfig) return;
+// Dynamic Sync State calculator for HTTP Polling & Vercel
+let cycleElapsedSec = 0;
 
-  const isPaused = menuConfig.system.is_paused || false;
-  const speed = menuConfig.system.speed_multiplier || 1;
-
-  // Filter active enabled playlist steps
-  const rawSequence = menuConfig.system.playlist_sequence || [
-    { id: 'step_menu', type: 'MENU', name: '메뉴판', duration_sec: 40, enabled: true },
-    { id: 'step_video', type: 'VIDEO', name: '프로모션 동영상', duration_sec: 20, enabled: true }
-  ];
-  const activeSteps = rawSequence.filter(s => s.enabled !== false);
-  if (activeSteps.length === 0) {
-    activeSteps.push({ id: 'fallback', type: 'MENU', name: '메뉴판', duration_sec: 40, enabled: true });
-  }
-
-  const totalCycleSec = activeSteps.reduce((sum, s) => sum + (s.duration_sec || 5), 0);
-
-  if (!isPaused) {
-    cycleElapsedSec += (1 * speed);
-    if (cycleElapsedSec >= totalCycleSec) {
-      cycleElapsedSec = cycleElapsedSec % totalCycleSec;
-    }
-  }
-
-  // Calculate current active step in playlist
-  let accumulated = 0;
-  let activeStep = activeSteps[0];
-  let stepElapsedSec = 0;
-
-  for (const step of activeSteps) {
-    const stepDuration = step.duration_sec || 5;
-    if (cycleElapsedSec >= accumulated && cycleElapsedSec < accumulated + stepDuration) {
-      activeStep = step;
-      stepElapsedSec = cycleElapsedSec - accumulated;
-      break;
-    }
-    accumulated += stepDuration;
-  }
-
-// HTTP Sync State Endpoint for Vercel Serverless / Polling Fallback
-app.get('/api/sync-state', (req, res) => {
-  if (!menuConfig) return res.status(500).json({ error: 'Config not loaded' });
+function calculateSyncState() {
+  if (!menuConfig) return {};
 
   const isPaused = menuConfig.system.is_paused || false;
   const speed = menuConfig.system.speed_multiplier || 1;
@@ -409,7 +298,7 @@ app.get('/api/sync-state', (req, res) => {
     accumulated += stepDuration;
   }
 
-  res.json({
+  return {
     event: 'SYNC_STATE',
     timestamp: Date.now(),
     config: menuConfig,
@@ -420,12 +309,75 @@ app.get('/api/sync-state', (req, res) => {
     speed_multiplier: speed,
     is_paused: isPaused,
     data_version: 'v1.1'
-  });
+  };
+}
+
+// HTTP Sync State Endpoint
+app.get('/api/sync-state', (req, res) => {
+  res.json(calculateSyncState());
 });
 
-const PORT = process.env.PORT || 3000;
+// WebSocket broadcast helper
+const clients = new Map();
 
+function broadcast(data) {
+  const jsonStr = JSON.stringify(data);
+  for (const [ws] of clients) {
+    if (ws.readyState === WebSocket.OPEN) {
+      ws.send(jsonStr);
+    }
+  }
+}
+
+// ONLY initialize standalone HTTP Server & WebSocketServer when running locally (NOT on Vercel serverless)
 if (!process.env.VERCEL) {
+  const server = http.createServer(app);
+  const wss = new WebSocketServer({ server, path: '/ws' });
+
+  wss.on('connection', (ws, req) => {
+    const urlParams = new URLSearchParams(req.url.split('?')[1]);
+    const displayId = urlParams.get('id') || '1';
+    const clientType = urlParams.get('type') || 'display';
+
+    const clientId = `client_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`;
+    clients.set(ws, { clientId, displayId, clientType, ip: req.socket.remoteAddress });
+
+    console.log(`🔌 Client connected: [Type: ${clientType}, DisplayID: ${displayId}]`);
+
+    ws.send(JSON.stringify({
+      event: 'INIT_STATE',
+      timestamp: Date.now(),
+      config: menuConfig,
+      cycle_elapsed_sec: cycleElapsedSec
+    }));
+
+    ws.on('message', (message) => {
+      try {
+        const data = JSON.parse(message);
+        if (data.event === 'PING') {
+          ws.send(JSON.stringify({ event: 'PONG', timestamp: Date.now() }));
+        }
+      } catch (e) {
+        console.error('Invalid WS payload:', e);
+      }
+    });
+
+    ws.on('close', () => {
+      console.log(`❌ Client disconnected: [ID: ${clientId}]`);
+      clients.delete(ws);
+    });
+  });
+
+  // Local state machine timer loop
+  setInterval(() => {
+    if (!menuConfig || menuConfig.system.is_paused) return;
+    const speed = menuConfig.system.speed_multiplier || 1;
+    const syncState = calculateSyncState();
+    cycleElapsedSec = (cycleElapsedSec + 1 * speed) % (syncState.total_cycle_sec || 60);
+    broadcast(syncState);
+  }, 1000);
+
+  const PORT = process.env.PORT || 3000;
   server.listen(PORT, () => {
     console.log(`=================================================`);
     console.log(`🚀 Blu Shaak Signage WAS Server running on port ${PORT}`);
