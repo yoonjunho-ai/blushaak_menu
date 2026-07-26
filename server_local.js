@@ -410,6 +410,10 @@ if (!process.env.VERCEL && WebSocketServer) {
 
     console.log(`🔌 Client connected: [Type: ${clientType}, DisplayID: ${displayId}]`);
 
+    // Always reload latest config from disk on new WS connection
+    const freshConfig = loadConfig();
+    if (freshConfig) menuConfig = freshConfig;
+
     ws.send(JSON.stringify({
       event: 'INIT_STATE',
       timestamp: Date.now(),
