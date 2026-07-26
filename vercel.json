@@ -1,10 +1,9 @@
 {
   "version": 2,
-  "outputDirectory": "public",
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/", "destination": "/display.html" },
-    { "source": "/display", "destination": "/display.html" },
-    { "source": "/admin", "destination": "/admin.html" }
+    { "source": "/", "destination": "/public/display.html" },
+    { "source": "/display", "destination": "/public/display.html" },
+    { "source": "/admin", "destination": "/public/admin.html" }
   ]
 }

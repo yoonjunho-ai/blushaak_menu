@@ -1,13 +1,13 @@
 {
   "name": "blu-shaak-signage-was",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Blu Shaak Multi-Display Digital Signage Web Application Server",
-  "main": "server.js",
+  "main": "server_local.js",
   "engines": {
     "node": "20.x"
   },
   "scripts": {
-    "start": "node server.js",
+    "start": "node server_local.js",
     "generate-assets": "node generate_assets.js"
   },
   "dependencies": {
