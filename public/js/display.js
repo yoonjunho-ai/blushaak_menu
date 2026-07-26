@@ -91,6 +91,19 @@ function renderMenuGrid(displayData) {
     // Image (Prioritize PNG/JPG real images, with SVG fallback on error)
     let imageSrc = item.image || '/assets/menu/shaak_latte.svg';
 
+    // Nutritional Info HTML
+    let nutriHtml = '';
+    if (item.nutrition) {
+      const kcalStr = item.nutrition.calories ? `${item.nutrition.calories}kcal` : '';
+      const cafStr = (item.nutrition.caffeine !== undefined && item.nutrition.caffeine !== null) ? `${item.nutrition.caffeine}mg` : '';
+      nutriHtml = `
+        <div class="menu-nutrition">
+          ${kcalStr ? `<span class="nutri-kcal">${kcalStr}</span>` : ''}
+          ${cafStr ? `<span class="nutri-caf">카페인 ${cafStr}</span>` : ''}
+        </div>
+      `;
+    }
+
     card.innerHTML = `
       <div class="menu-card-top">
         ${badgeHtml}
@@ -103,6 +116,7 @@ function renderMenuGrid(displayData) {
         <span class="menu-name-en">${item.name_en}</span>
         <div class="menu-price-container">
           <span class="menu-price">${item.price}</span>
+          ${nutriHtml}
         </div>
       </div>
       ${item.is_sold_out ? `

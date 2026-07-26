@@ -50,218 +50,262 @@
           "name_kr": "샥 라떼",
           "name_en": "Shaak Latte",
           "price": "3.4",
-          "image": "/assets/menu/shaak-latte.jpg",
+          "image": "/assets/menu/c1_1785107703595.jpg",
           "is_signature": true,
           "badge": "BEST",
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 275,
+            "caffeine": 150
+          }
         },
         {
           "id": "c2",
           "name_kr": "피넛 라떼",
           "name_en": "Peanut Latte",
           "price": "3.8",
-          "image": "/assets/menu/peanut-latte.jpg",
+          "image": "/assets/menu/c2_1785107715099.jpg",
           "is_signature": true,
           "badge": "BEST",
-          "is_sold_out": true
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 320,
+            "caffeine": 150
+          }
         },
         {
           "id": "c3",
           "name_kr": "아메리카노",
           "name_en": "Americano",
           "price": "2.5",
-          "image": "/assets/menu/colombian-americano.jpg",
+          "image": "/assets/menu/c3_1785105201907.jpg",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 15,
+            "caffeine": 150
+          }
         },
         {
           "id": "c4",
           "name_kr": "화이트 아메리카노",
           "name_en": "White Americano",
           "price": "3.4",
-          "image": "/assets/menu/white-americano.jpg",
+          "image": "/assets/menu/c4_1785105211033.jpg",
           "badge": null,
-          "is_sold_out": false
-        },
-        {
-          "id": "c5",
-          "name_kr": "피넛 콜드브루",
-          "name_en": "Peanut Cold Brew",
-          "price": "3.9",
-          "image": "/assets/menu/peanut-latte.jpg",
-          "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 45,
+            "caffeine": 150
+          }
         },
         {
           "id": "c6",
           "name_kr": "카페 라떼",
           "name_en": "Cafe Latte",
           "price": "3.6",
-          "image": "/assets/menu/cafe-latte.jpg",
+          "image": "/assets/menu/c6_1785105301961.jpg",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 180,
+            "caffeine": 150
+          }
         },
         {
           "id": "c7",
           "name_kr": "카페 모카",
           "name_en": "Cafe Mocha",
           "price": "4.5",
-          "image": "/assets/menu/cafe-mocha.jpg",
+          "image": "/assets/menu/c7_1785105319771.jpg",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 290,
+            "caffeine": 160
+          }
         },
         {
           "id": "c8",
           "name_kr": "제로 바닐라 라떼",
           "name_en": "Zero Vanilla Latte",
           "price": "4.3",
-          "image": "/assets/menu/zero-vanilla-latte.jpg",
+          "image": "/assets/menu/c8_1785105339663.jpg",
           "badge": "NEW",
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 110,
+            "caffeine": 150
+          }
         },
         {
           "id": "c9",
           "name_kr": "말차 카페 라떼",
           "name_en": "Matcha Cafe Latte",
           "price": "4.5",
-          "image": "/assets/menu/jeju-matcha-cafe-latte.jpg",
+          "image": "/assets/menu/c9_1785105345473.jpg",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 240,
+            "caffeine": 170
+          }
         },
         {
           "id": "c10",
           "name_kr": "바닐라 빈 라떼",
           "name_en": "Vanilla Bean Latte",
           "price": "4.1",
-          "image": "/assets/menu/vanilla-bean-latte.jpg",
+          "image": "/assets/menu/c10_1785105611981.jpg",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 230,
+            "caffeine": 150
+          }
         },
         {
           "id": "c11",
           "name_kr": "콜드브루",
           "name_en": "Cold Brew",
           "price": "4.3",
-          "image": "/assets/menu/cold-brew-americano.jpg",
+          "image": "/assets/menu/c11_1785105356959.jpg",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 12,
+            "caffeine": 190
+          }
         },
         {
           "id": "c12",
           "name_kr": "에스프레소",
           "name_en": "Espresso",
           "price": "2.3",
-          "image": "/assets/menu/espresso.jpg",
+          "image": "/assets/menu/c12_1785105362718.jpg",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 5,
+            "caffeine": 150
+          }
         },
         {
           "id": "c13",
           "name_kr": "디카페인 아메리카노",
           "name_en": "Decaf Americano",
           "price": "2.8",
-          "image": "/assets/menu/decaf-americano.jpg",
+          "image": "/assets/menu/c13_1785105374247.jpg",
           "badge": "NEW",
-          "is_sold_out": false
-        },
-        {
-          "id": "c14",
-          "name_kr": "디카페인 카페 라떼",
-          "name_en": "Decaf Cafe Latte",
-          "price": "3.9",
-          "image": "/assets/menu/cafe-latte.jpg",
-          "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 15,
+            "caffeine": 5
+          }
         },
         {
           "id": "c15",
           "name_kr": "돌체 라떼",
           "name_en": "Dolce Latte",
           "price": "4.3",
-          "image": "/assets/menu/dolce-latte.jpg",
+          "image": "/assets/menu/c15_1785105402469.jpg",
           "badge": "POPULAR",
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 260,
+            "caffeine": 150
+          }
         },
         {
           "id": "c16",
           "name_kr": "돌체 콜드브루",
           "name_en": "Dolce Cold Brew",
           "price": "4.5",
-          "image": "/assets/menu/dolce-cold-brew-latte.jpg",
+          "image": "/assets/menu/c16_1785105641886.jpg",
           "badge": null,
-          "is_sold_out": false
-        },
-        {
-          "id": "c17",
-          "name_kr": "아인슈페너",
-          "name_en": "Einspanner",
-          "price": "4.2",
-          "image": "/assets/menu/shaak-latte.jpg",
-          "badge": "BEST",
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 250,
+            "caffeine": 180
+          }
         },
         {
           "id": "c18",
           "name_kr": "카라멜 마키아또",
           "name_en": "Caramel Macchiato",
           "price": "4.3",
-          "image": "/assets/menu/caramel-macchiato.jpg",
+          "image": "/assets/menu/c18_1785105459782.jpg",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 270,
+            "caffeine": 150
+          }
         },
         {
           "id": "c19",
           "name_kr": "시나몬 카페 라떼",
           "name_en": "Cinnamon Cafe Latte",
           "price": "4.4",
-          "image": "/assets/menu/cinnamon-cafe-latte.jpg",
+          "image": "/assets/menu/c19_1785105450629.jpg",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 220,
+            "caffeine": 150
+          }
         },
         {
           "id": "c20",
           "name_kr": "콜드브루 라떼",
           "name_en": "Cold Brew Latte",
           "price": "4.5",
-          "image": "/assets/menu/cold-brew-latte.jpg",
+          "image": "/assets/menu/c20_1785105432929.jpg",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 170,
+            "caffeine": 180
+          }
         },
         {
           "id": "c21",
           "name_kr": "카페 시트러스",
           "name_en": "Cafe Citrus",
           "price": "4.5",
-          "image": "/assets/menu/cafe-citrus.jpg",
+          "image": "/assets/menu/c21_1785105499322.jpg",
           "badge": "NEW",
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 190,
+            "caffeine": 150
+          }
         },
         {
           "id": "c22",
           "name_kr": "카페 피에노",
           "name_en": "Cafe Pieno",
           "price": "3.5",
-          "image": "/assets/menu/cafe-pieno.jpg",
+          "image": "/assets/menu/c22_1785105511311.jpg",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 90,
+            "caffeine": 150
+          }
         },
         {
           "id": "c23",
           "name_kr": "아샷추",
           "name_en": "Ashatchu Iced Tea",
           "price": "3.5",
-          "image": "/assets/menu/ah-shot-chu.jpg",
+          "image": "/assets/menu/c23_1785105518442.jpg",
           "badge": "BEST",
-          "is_sold_out": false
-        },
-        {
-          "id": "c24",
-          "name_kr": "1리터 아메리카노",
-          "name_en": "1L Americano",
-          "price": "5.0",
-          "image": "/assets/menu/colombian-americano.jpg",
-          "badge": "POPULAR",
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 160,
+            "caffeine": 180
+          }
         }
       ]
     },
@@ -277,111 +321,211 @@
       "items": [
         {
           "id": "b1",
-          "name_kr": "샬롯 초코",
-          "name_en": "Shallot Choco",
+          "name_kr": "골든유자 뷰티 엘릭서",
+          "name_en": "Golden Yuzu Beauty Elixir",
           "price": "5.2",
-          "image": "/assets/menu/shallot_choco.png",
+          "image": "/assets/menu/b1_1785108167224.jpg",
           "badge": "BEST",
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 281,
+            "caffeine": 0
+          }
         },
         {
           "id": "b2",
           "name_kr": "설향 딸기 라떼",
           "name_en": "Strawberry Latte",
           "price": "4.4",
-          "image": "/assets/menu/strawberry_latte.png",
+          "image": "/assets/menu/b2_1785108188528.jpg",
           "badge": "BEST",
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 284,
+            "caffeine": 0
+          }
         },
         {
           "id": "b3",
           "name_kr": "망고 라떼",
           "name_en": "Mango Latte",
           "price": "4.4",
-          "image": "/assets/menu/mango_latte.png",
+          "image": "/assets/menu/b3_1785108199187.jpg",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 176,
+            "caffeine": 0
+          }
         },
         {
           "id": "b4",
           "name_kr": "말차 라떼",
           "name_en": "Matcha Latte",
           "price": "4.5",
-          "image": "/assets/menu/matcha_latte.png",
+          "image": "/assets/menu/b4_1785108206965.jpg",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 251,
+            "caffeine": 0
+          }
         },
         {
           "id": "b5",
           "name_kr": "얼그레이 바닐라 티라떼",
           "name_en": "Earl Grey Vanilla Tea Latte",
           "price": "4.8",
-          "image": "/assets/menu/earlgrey_vanilla_latte.png",
+          "image": "/assets/menu/b5_1785108233007.jpg",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 163,
+            "caffeine": 0
+          }
         },
         {
           "id": "b6",
           "name_kr": "로얄 밀크티",
           "name_en": "Royal Milk Tea",
           "price": "4.2",
-          "image": "/assets/menu/royal_milk_tea.png",
+          "image": "/assets/menu/b6_1785108262162.jpg",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 250,
+            "caffeine": 0
+          }
         },
         {
           "id": "b7",
           "name_kr": "토피넛 라떼",
           "name_en": "Toffee Nut Latte",
           "price": "4.5",
-          "image": "/assets/menu/toffeenut_latte.png",
+          "image": "/assets/menu/b7_1785108273945.jpg",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 210,
+            "caffeine": 0
+          }
         },
         {
           "id": "b8",
           "name_kr": "영양 고구마 라떼",
           "name_en": "Sweet Potato Latte",
           "price": "4.0",
-          "image": "/assets/menu/sweet_potato_latte.png",
+          "image": "/assets/menu/b8_1785108286439.jpg",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 200,
+            "caffeine": 0
+          }
         },
         {
           "id": "b9",
           "name_kr": "자몽 에이드",
           "name_en": "Grapefruit Ade",
           "price": "4.5",
-          "image": "/assets/menu/grapefruit_ade.png",
+          "image": "/assets/menu/b9_1785108315988.jpg",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 290,
+            "caffeine": 0
+          }
         },
         {
           "id": "b10",
           "name_kr": "청포도 에이드",
           "name_en": "Green Grape Ade",
           "price": "4.5",
-          "image": "/assets/menu/greengrape_ade.png",
+          "image": "/assets/menu/b10_1785108323989.jpg",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 292,
+            "caffeine": 0
+          }
         },
         {
           "id": "b11",
           "name_kr": "레몬 에이드",
           "name_en": "Lemon Ade",
           "price": "4.5",
-          "image": "/assets/menu/lemon_ade.png",
+          "image": "/assets/menu/b11_1785108337715.jpg",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 257,
+            "caffeine": 0
+          }
         },
         {
           "id": "b12",
           "name_kr": "더블 초코라떼",
           "name_en": "Double Choco Latte",
           "price": "4.0",
-          "image": "/assets/menu/double_choco_latte.png",
+          "image": "/assets/menu/b12_1785108358340.jpg",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 292,
+            "caffeine": 0
+          }
+        },
+        {
+          "id": "item_1785108431208",
+          "name_kr": "흑당 버블티",
+          "name_en": "Brown Sugar Bubble Tea",
+          "price": "4.0",
+          "image": "/assets/menu/item_1785108431208_1785108495120.jpg",
+          "badge": null,
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 213,
+            "caffeine": 0
+          }
+        },
+        {
+          "id": "item_1785108536854",
+          "name_kr": "바나나 버블티",
+          "name_en": "Banana Bubble Tea",
+          "price": "4.0",
+          "image": "/assets/menu/item_1785108536854_1785108550567.jpg",
+          "badge": null,
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 227,
+            "caffeine": 0
+          }
+        },
+        {
+          "id": "item_1785108572005",
+          "name_kr": "말차 버블티",
+          "name_en": "Matcha Bubble Tea",
+          "price": "4.0",
+          "image": "/assets/menu/item_1785108572005_1785108577927.jpg",
+          "badge": null,
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 182,
+            "caffeine": 0
+          }
+        },
+        {
+          "id": "item_1785108599284",
+          "name_kr": "더블 초코 버블티",
+          "name_en": "Double Choco Bubble Tea",
+          "price": "0.0",
+          "image": "/assets/menu/item_1785108599284_1785108612120.jpg",
+          "badge": null,
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 250,
+            "caffeine": 0
+          }
         }
       ]
     },
@@ -402,7 +546,11 @@
           "price": "4.8",
           "image": "/assets/menu/lemon_earlgrey_tea.png",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 264,
+            "caffeine": 0
+          }
         },
         {
           "id": "t2",
@@ -411,7 +559,11 @@
           "price": "4.0",
           "image": "/assets/menu/strawberry_iced_tea.png",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 204,
+            "caffeine": 0
+          }
         },
         {
           "id": "t3",
@@ -420,7 +572,11 @@
           "price": "3.9",
           "image": "/assets/menu/applemango_iced_tea.png",
           "badge": "BEST",
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 163,
+            "caffeine": 0
+          }
         },
         {
           "id": "t4",
@@ -429,7 +585,11 @@
           "price": "4.2",
           "image": "/assets/menu/cup_bingsu.png",
           "badge": "SEASONAL",
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 212,
+            "caffeine": 0
+          }
         },
         {
           "id": "t5",
@@ -438,7 +598,11 @@
           "price": "5.9",
           "image": "/assets/menu/mint_choco_frappe.png",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 295,
+            "caffeine": 0
+          }
         },
         {
           "id": "t6",
@@ -447,7 +611,11 @@
           "price": "4.7",
           "image": "/assets/menu/matcha_frappe.png",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 253,
+            "caffeine": 0
+          }
         },
         {
           "id": "t7",
@@ -456,7 +624,11 @@
           "price": "4.8",
           "image": "/assets/menu/plain_smoothie.png",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 195,
+            "caffeine": 0
+          }
         },
         {
           "id": "t8",
@@ -465,7 +637,11 @@
           "price": "4.8",
           "image": "/assets/menu/greengrape_smoothie.png",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 152,
+            "caffeine": 0
+          }
         },
         {
           "id": "t9",
@@ -474,7 +650,11 @@
           "price": "4.7",
           "image": "/assets/menu/strawberry_yogurt_smoothie.png",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 273,
+            "caffeine": 0
+          }
         },
         {
           "id": "t10",
@@ -483,7 +663,11 @@
           "price": "4.7",
           "image": "/assets/menu/blueberry_yogurt_smoothie.png",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 157,
+            "caffeine": 0
+          }
         },
         {
           "id": "t11",
@@ -492,7 +676,11 @@
           "price": "4.8",
           "image": "/assets/menu/mango_banana_smoothie.png",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 263,
+            "caffeine": 0
+          }
         },
         {
           "id": "t12",
@@ -501,7 +689,11 @@
           "price": "4.8",
           "image": "/assets/menu/choco_banana_smoothie.png",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 239,
+            "caffeine": 0
+          }
         },
         {
           "id": "t13",
@@ -510,7 +702,11 @@
           "price": "3.8",
           "image": "/assets/menu/chamomile_tea.png",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 229,
+            "caffeine": 0
+          }
         },
         {
           "id": "t14",
@@ -519,7 +715,11 @@
           "price": "3.8",
           "image": "/assets/menu/peppermint_tea.png",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 261,
+            "caffeine": 0
+          }
         },
         {
           "id": "t15",
@@ -528,7 +728,11 @@
           "price": "4.5",
           "image": "/assets/menu/yuja_grapefruit_tea.png",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 263,
+            "caffeine": 0
+          }
         },
         {
           "id": "t16",
@@ -537,7 +741,11 @@
           "price": "4.2",
           "image": "/assets/menu/peach_oolong_tea.png",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 213,
+            "caffeine": 0
+          }
         },
         {
           "id": "t17",
@@ -546,7 +754,11 @@
           "price": "5.0",
           "image": "/assets/menu/milkshake_blended.png",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 191,
+            "caffeine": 0
+          }
         },
         {
           "id": "t18",
@@ -555,7 +767,11 @@
           "price": "5.5",
           "image": "/assets/menu/coconut_frappe.png",
           "badge": "NEW",
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 184,
+            "caffeine": 0
+          }
         }
       ]
     },
@@ -577,7 +793,11 @@
           "price": "4.5",
           "image": "/assets/menu/milk_shake.png",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 183,
+            "caffeine": 0
+          }
         },
         {
           "id": "d2",
@@ -586,7 +806,11 @@
           "price": "4.5",
           "image": "/assets/menu/coffee_shake.png",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 172,
+            "caffeine": 0
+          }
         },
         {
           "id": "d3",
@@ -595,7 +819,11 @@
           "price": "3.9",
           "image": "/assets/menu/choco_shake.png",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 204,
+            "caffeine": 0
+          }
         },
         {
           "id": "d4",
@@ -604,7 +832,11 @@
           "price": "5.0",
           "image": "/assets/menu/real_strawberry_juice.png",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 154,
+            "caffeine": 0
+          }
         },
         {
           "id": "d5",
@@ -613,7 +845,11 @@
           "price": "3.9",
           "image": "/assets/menu/jeju_hojicha.png",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 161,
+            "caffeine": 0
+          }
         },
         {
           "id": "d6",
@@ -622,7 +858,11 @@
           "price": "5.2",
           "image": "/assets/menu/brownsugar_bubble_tea.png",
           "badge": "BEST",
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 247,
+            "caffeine": 0
+          }
         },
         {
           "id": "d7",
@@ -631,7 +871,11 @@
           "price": "5.4",
           "image": "/assets/menu/double_choco_bubble_tea.png",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 296.6,
+            "caffeine": 5.8
+          }
         },
         {
           "id": "d8",
@@ -640,7 +884,11 @@
           "price": "5.4",
           "image": "/assets/menu/matcha_bubble_tea.png",
           "badge": null,
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 287,
+            "caffeine": 0
+          }
         },
         {
           "id": "k1",
@@ -649,7 +897,11 @@
           "price": "2.8",
           "image": "/assets/menu/financier.png",
           "badge": "BAKERY",
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 237,
+            "caffeine": 0
+          }
         },
         {
           "id": "k2",
@@ -658,7 +910,11 @@
           "price": "3.5",
           "image": "/assets/menu/scone.png",
           "badge": "BAKERY",
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 257,
+            "caffeine": 0
+          }
         },
         {
           "id": "k3",
@@ -667,7 +923,11 @@
           "price": "3.8",
           "image": "/assets/menu/butter_tteok.png",
           "badge": "POPULAR",
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 188,
+            "caffeine": 0
+          }
         },
         {
           "id": "k4",
@@ -676,7 +936,11 @@
           "price": "3.0",
           "image": "/assets/menu/canele.png",
           "badge": "BAKERY",
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 246,
+            "caffeine": 0
+          }
         },
         {
           "id": "k5",
@@ -685,7 +949,11 @@
           "price": "2.5",
           "image": "/assets/menu/biscotti.png",
           "badge": "BAKERY",
-          "is_sold_out": false
+          "is_sold_out": false,
+          "nutrition": {
+            "calories": 234,
+            "caffeine": 0
+          }
         }
       ]
     }
