@@ -278,17 +278,20 @@ body {
 }
 
 .menu-nutrition {
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   justify-content: center;
   background: #F1F5F9 !important;
-  padding: 3px 8px !important;
+  padding: 2px 7px !important;
   border-radius: 6px !important;
   border: 1px solid #E2E8F0 !important;
   line-height: 1.2;
   text-align: right;
-  margin-left: auto;
+  z-index: 6;
 }
 
 .nutri-kcal {
