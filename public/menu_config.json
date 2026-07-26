@@ -1,0 +1,158 @@
+{
+  "system": {
+    "speed_multiplier": 1,
+    "is_paused": false,
+    "phase_a_duration_sec": 40,
+    "phase_b_duration_sec": 20,
+    "promo_mode": "VIDEO",
+    "promo_image_duration_sec": 5,
+    "playlist_sequence": [
+      { "id": "step_menu", "type": "MENU", "name": "메뉴판", "duration_sec": 40, "enabled": true },
+      { "id": "step_poster1", "type": "IMAGE_1", "name": "포스터 1", "duration_sec": 5, "enabled": true },
+      { "id": "step_video", "type": "VIDEO", "name": "프로모션 동영상", "duration_sec": 20, "enabled": true },
+      { "id": "step_poster2", "type": "IMAGE_2", "name": "포스터 2", "duration_sec": 5, "enabled": true }
+    ],
+    "ticker": {
+      "is_active": false,
+      "text": "블루샥 신메뉴 출시! 매장에서 맛있는 블루샥 커피를 만나보세요."
+    }
+  },
+  "promotional_campaigns": [
+    {
+      "campaign_id": "summer_2026",
+      "title": "Summer Seasonal Highlights",
+      "videos": {
+        "screen_1": "/assets/video/promo_screen_1.mp4",
+        "screen_2": "/assets/video/promo_screen_2.mp4",
+        "screen_3": "/assets/video/promo_screen_3.mp4",
+        "screen_4": "/assets/video/promo_screen_4.mp4"
+      },
+      "images_poster_1": {
+        "screen_1": "/assets/promo/promo_screen_1.svg",
+        "screen_2": "/assets/promo/promo_screen_2.svg",
+        "screen_3": "/assets/promo/promo_screen_3.svg",
+        "screen_4": "/assets/promo/promo_screen_4.svg"
+      },
+      "images_poster_2": {
+        "screen_1": "/assets/promo/promo_screen_1.svg",
+        "screen_2": "/assets/promo/promo_screen_2.svg",
+        "screen_3": "/assets/promo/promo_screen_3.svg",
+        "screen_4": "/assets/promo/promo_screen_4.svg"
+      }
+    }
+  ],
+  "displays": [
+    {
+      "display_id": 1,
+      "title": "SIGNATURE & COFFEE",
+      "subtitle": "시그니처 & 커피 메뉴",
+      "categories": ["SIGNATURE", "COFFEE"],
+      "items": [
+        {"id": "c1", "name_kr": "샥 라떼", "name_en": "Shaak Latte", "price": "3.4", "image": "/assets/menu/shaak_latte.svg", "badge": "BEST", "is_sold_out": false, "is_signature": true},
+        {"id": "c2", "name_kr": "피넛 라떼", "name_en": "Peanut Latte", "price": "3.8", "image": "/assets/menu/peanut_latte.svg", "badge": "BEST", "is_sold_out": false, "is_signature": true},
+        {"id": "c3", "name_kr": "아메리카노", "name_en": "Americano", "price": "2.5", "image": "/assets/menu/americano.svg", "badge": null, "is_sold_out": false},
+        {"id": "c4", "name_kr": "화이트 아메리카노", "name_en": "White Americano", "price": "3.4", "image": "/assets/menu/white_americano.svg", "badge": null, "is_sold_out": false},
+        {"id": "c5", "name_kr": "피넛 콜드브루", "name_en": "Peanut Cold Brew", "price": "3.9", "image": "/assets/menu/peanut_coldbrew.svg", "badge": null, "is_sold_out": false},
+        {"id": "c6", "name_kr": "카페 라떼", "name_en": "Cafe Latte", "price": "3.6", "image": "/assets/menu/cafe_latte.svg", "badge": null, "is_sold_out": false},
+        {"id": "c7", "name_kr": "카페 모카", "name_en": "Cafe Mocha", "price": "4.5", "image": "/assets/menu/cafe_mocha.svg", "badge": null, "is_sold_out": false},
+        {"id": "c8", "name_kr": "제로 바닐라 라떼", "name_en": "Zero Vanilla Latte", "price": "4.3", "image": "/assets/menu/zero_vanilla.svg", "badge": "NEW", "is_sold_out": false},
+        {"id": "c9", "name_kr": "말차 카페 라떼", "name_en": "Matcha Cafe Latte", "price": "4.5", "image": "/assets/menu/matcha_cafe_latte.svg", "badge": null, "is_sold_out": false},
+        {"id": "c10", "name_kr": "바닐라 빈 라떼", "name_en": "Vanilla Bean Latte", "price": "4.1", "image": "/assets/menu/vanilla_bean_latte.svg", "badge": null, "is_sold_out": false},
+        {"id": "c11", "name_kr": "콜드브루", "name_en": "Cold Brew", "price": "4.3", "image": "/assets/menu/cold_brew.svg", "badge": null, "is_sold_out": false},
+        {"id": "c12", "name_kr": "에스프레소", "name_en": "Espresso", "price": "2.3", "image": "/assets/menu/espresso.svg", "badge": null, "is_sold_out": false},
+        {"id": "c13", "name_kr": "디카페인 아메리카노", "name_en": "Decaf Americano", "price": "2.8", "image": "/assets/menu/decaf_americano.svg", "badge": "NEW", "is_sold_out": false},
+        {"id": "c14", "name_kr": "디카페인 카페 라떼", "name_en": "Decaf Cafe Latte", "price": "3.9", "image": "/assets/menu/decaf_latte.svg", "badge": null, "is_sold_out": false},
+        {"id": "c15", "name_kr": "돌체 라떼", "name_en": "Dolce Latte", "price": "4.3", "image": "/assets/menu/dolce_latte.svg", "badge": "POPULAR", "is_sold_out": false},
+        {"id": "c16", "name_kr": "돌체 콜드브루", "name_en": "Dolce Cold Brew", "price": "4.5", "image": "/assets/menu/dolce_coldbrew.svg", "badge": null, "is_sold_out": false},
+        {"id": "c17", "name_kr": "아인슈페너", "name_en": "Einspanner", "price": "4.2", "image": "/assets/menu/einspanner.svg", "badge": "BEST", "is_sold_out": false},
+        {"id": "c18", "name_kr": "카라멜 마키아또", "name_en": "Caramel Macchiato", "price": "4.3", "image": "/assets/menu/caramel_macchiato.svg", "badge": null, "is_sold_out": false},
+        {"id": "c19", "name_kr": "시나몬 카페 라떼", "name_en": "Cinnamon Cafe Latte", "price": "4.4", "image": "/assets/menu/cinnamon_latte.svg", "badge": null, "is_sold_out": false},
+        {"id": "c20", "name_kr": "콜드브루 라떼", "name_en": "Cold Brew Latte", "price": "4.5", "image": "/assets/menu/coldbrew_latte.svg", "badge": null, "is_sold_out": false},
+        {"id": "c21", "name_kr": "카페 시트러스", "name_en": "Cafe Citrus", "price": "4.5", "image": "/assets/menu/cafe_citrus.svg", "badge": "NEW", "is_sold_out": false},
+        {"id": "c22", "name_kr": "카페 피에노", "name_en": "Cafe Pieno", "price": "3.5", "image": "/assets/menu/cafe_pieno.svg", "badge": null, "is_sold_out": false},
+        {"id": "c23", "name_kr": "아샷추", "name_en": "Ashatchu Iced Tea", "price": "3.5", "image": "/assets/menu/ashatchu.svg", "badge": "BEST", "is_sold_out": false},
+        {"id": "c24", "name_kr": "1리터 아메리카노", "name_en": "1L Americano", "price": "5.0", "image": "/assets/menu/1l_americano.svg", "badge": "POPULAR", "is_sold_out": false}
+      ]
+    },
+    {
+      "display_id": 2,
+      "title": "BEVERAGE (LATTE & ADE)",
+      "subtitle": "음료 (라떼 & 에이드)",
+      "categories": ["LATTE", "ADE"],
+      "items": [
+        {"id": "b1", "name_kr": "샬롯 초코", "name_en": "Shallot Choco", "price": "5.2", "image": "/assets/menu/shallot_choco.svg", "badge": "BEST", "is_sold_out": false},
+        {"id": "b2", "name_kr": "설향 딸기 라떼", "name_en": "Strawberry Latte", "price": "4.4", "image": "/assets/menu/strawberry_latte.svg", "badge": "BEST", "is_sold_out": false},
+        {"id": "b3", "name_kr": "망고 라떼", "name_en": "Mango Latte", "price": "4.4", "image": "/assets/menu/mango_latte.svg", "badge": null, "is_sold_out": false},
+        {"id": "b4", "name_kr": "말차 라떼", "name_en": "Matcha Latte", "price": "4.5", "image": "/assets/menu/matcha_latte.svg", "badge": null, "is_sold_out": false},
+        {"id": "b5", "name_kr": "얼그레이 바닐라 티라떼", "name_en": "Earl Grey Vanilla Tea Latte", "price": "4.8", "image": "/assets/menu/earlgrey_vanilla_latte.svg", "badge": null, "is_sold_out": false},
+        {"id": "b6", "name_kr": "로얄 밀크티", "name_en": "Royal Milk Tea", "price": "4.2", "image": "/assets/menu/royal_milk_tea.svg", "badge": null, "is_sold_out": false},
+        {"id": "b7", "name_kr": "토피넛 라떼", "name_en": "Toffee Nut Latte", "price": "4.5", "image": "/assets/menu/toffeenut_latte.svg", "badge": null, "is_sold_out": false},
+        {"id": "b8", "name_kr": "영양 고구마 라떼", "name_en": "Sweet Potato Latte", "price": "4.0", "image": "/assets/menu/sweet_potato_latte.svg", "badge": null, "is_sold_out": false},
+        {"id": "b9", "name_kr": "자몽 에이드", "name_en": "Grapefruit Ade", "price": "4.5", "image": "/assets/menu/grapefruit_ade.svg", "badge": null, "is_sold_out": false},
+        {"id": "b10", "name_kr": "청포도 에이드", "name_en": "Green Grape Ade", "price": "4.5", "image": "/assets/menu/greengrape_ade.svg", "badge": null, "is_sold_out": false},
+        {"id": "b11", "name_kr": "레몬 에이드", "name_en": "Lemon Ade", "price": "4.5", "image": "/assets/menu/lemon_ade.svg", "badge": null, "is_sold_out": false},
+        {"id": "b12", "name_kr": "더블 초코라떼", "name_en": "Double Choco Latte", "price": "4.0", "image": "/assets/menu/double_choco_latte.svg", "badge": null, "is_sold_out": false},
+        {"id": "b13", "name_kr": "발로나 초콜릿 라떼", "name_en": "Valrhona Chocolate Latte", "price": "4.8", "image": "/assets/menu/valrhona_choco.svg", "badge": "BEST", "is_sold_out": false},
+        {"id": "b14", "name_kr": "보리 미숫가루 라떼", "name_en": "Barley Misutgaru Latte", "price": "4.2", "image": "/assets/menu/misutgaru_latte.svg", "badge": null, "is_sold_out": false},
+        {"id": "b15", "name_kr": "샤인머스캣 에이드", "name_en": "Shine Muscat Ade", "price": "4.8", "image": "/assets/menu/shinemuscat_ade.svg", "badge": "NEW", "is_sold_out": false},
+        {"id": "b16", "name_kr": "한라봉 에이드", "name_en": "Hallabong Ade", "price": "4.5", "image": "/assets/menu/hallabong_ade.svg", "badge": null, "is_sold_out": false},
+        {"id": "b17", "name_kr": "1리터 아이스티", "name_en": "1L Iced Tea", "price": "4.5", "image": "/assets/menu/1l_iced_tea.svg", "badge": null, "is_sold_out": false},
+        {"id": "b18", "name_kr": "1리터 카페라떼", "name_en": "1L Cafe Latte", "price": "6.5", "image": "/assets/menu/1l_cafe_latte.svg", "badge": null, "is_sold_out": false}
+      ]
+    },
+    {
+      "display_id": 3,
+      "title": "TEA & BLENDED",
+      "subtitle": "티 & 블렌디드",
+      "categories": ["TEA", "BLENDED", "SMOOTHIE"],
+      "items": [
+        {"id": "t1", "name_kr": "레몬 얼그레이 티", "name_en": "Lemon Earl Grey Tea", "price": "4.8", "image": "/assets/menu/lemon_earlgrey_tea.svg", "badge": null, "is_sold_out": false},
+        {"id": "t2", "name_kr": "딸기 아이스티", "name_en": "Strawberry Iced Tea", "price": "4.0", "image": "/assets/menu/strawberry_iced_tea.svg", "badge": null, "is_sold_out": false},
+        {"id": "t3", "name_kr": "애플망고 아이스티", "name_en": "Apple Mango Iced Tea", "price": "3.9", "image": "/assets/menu/applemango_iced_tea.svg", "badge": null, "is_sold_out": false},
+        {"id": "t4", "name_kr": "컵빙수", "name_en": "Cup Bingsu", "price": "4.2", "image": "/assets/menu/cup_bingsu.svg", "badge": "SEASONAL", "is_sold_out": false},
+        {"id": "t5", "name_kr": "민트 초코 프라페", "name_en": "Mint Choco Frappe", "price": "5.9", "image": "/assets/menu/mint_choco_frappe.svg", "badge": null, "is_sold_out": false},
+        {"id": "t6", "name_kr": "말차 프라페", "name_en": "Matcha Frappe", "price": "4.7", "image": "/assets/menu/matcha_frappe.svg", "badge": null, "is_sold_out": false},
+        {"id": "t7", "name_kr": "플레인 스무디", "name_en": "Plain Smoothie", "price": "4.8", "image": "/assets/menu/plain_smoothie.svg", "badge": null, "is_sold_out": false},
+        {"id": "t8", "name_kr": "청포도 스무디", "name_en": "Green Grape Smoothie", "price": "4.8", "image": "/assets/menu/greengrape_smoothie.svg", "badge": null, "is_sold_out": false},
+        {"id": "t9", "name_kr": "딸기 요거트 스무디", "name_en": "Strawberry Yogurt Smoothie", "price": "4.7", "image": "/assets/menu/strawberry_yogurt_smoothie.svg", "badge": null, "is_sold_out": false},
+        {"id": "t10", "name_kr": "블루베리 요거트 스무디", "name_en": "Blueberry Yogurt Smoothie", "price": "4.7", "image": "/assets/menu/blueberry_yogurt_smoothie.svg", "badge": null, "is_sold_out": false},
+        {"id": "t11", "name_kr": "망고 바나나 스무디", "name_en": "Mango Banana Smoothie", "price": "4.8", "image": "/assets/menu/mango_banana_smoothie.svg", "badge": null, "is_sold_out": false},
+        {"id": "t12", "name_kr": "초코 바나나 스무디", "name_en": "Choco Banana Smoothie", "price": "4.8", "image": "/assets/menu/choco_banana_smoothie.svg", "badge": null, "is_sold_out": false},
+        {"id": "t13", "name_kr": "캐모마일 티", "name_en": "Chamomile Tea", "price": "3.8", "image": "/assets/menu/chamomile_tea.svg", "badge": null, "is_sold_out": false},
+        {"id": "t14", "name_kr": "페퍼민트 티", "name_en": "Peppermint Tea", "price": "3.8", "image": "/assets/menu/peppermint_tea.svg", "badge": null, "is_sold_out": false},
+        {"id": "t15", "name_kr": "유자 자몽 티", "name_en": "Yuja Grapefruit Tea", "price": "4.5", "image": "/assets/menu/yuja_grapefruit_tea.svg", "badge": null, "is_sold_out": false},
+        {"id": "t16", "name_kr": "피치 우롱 티", "name_en": "Peach Oolong Tea", "price": "4.2", "image": "/assets/menu/peach_oolong_tea.svg", "badge": null, "is_sold_out": false},
+        {"id": "t17", "name_kr": "밀크쉐이크 블렌디드", "name_en": "Milkshake Blended", "price": "5.0", "image": "/assets/menu/milkshake_blended.svg", "badge": null, "is_sold_out": false},
+        {"id": "t18", "name_kr": "코코넛 프라페", "name_en": "Coconut Frappe", "price": "5.5", "image": "/assets/menu/coconut_frappe.svg", "badge": "NEW", "is_sold_out": false}
+      ]
+    },
+    {
+      "display_id": 4,
+      "title": "SHAKE & BAKERY DESSERT",
+      "subtitle": "쉐이크 & 디저트 베이커리",
+      "categories": ["SHAKE", "BUBBLE_TEA", "BAKERY"],
+      "items": [
+        {"id": "d1", "name_kr": "밀크 쉐이크", "name_en": "Milk Shake", "price": "4.5", "image": "/assets/menu/milk_shake.svg", "badge": null, "is_sold_out": false},
+        {"id": "d2", "name_kr": "커피 쉐이크", "name_en": "Coffee Shake", "price": "4.5", "image": "/assets/menu/coffee_shake.svg", "badge": null, "is_sold_out": false},
+        {"id": "d3", "name_kr": "초코 쉐이크", "name_en": "Choco Shake", "price": "3.9", "image": "/assets/menu/choco_shake.svg", "badge": null, "is_sold_out": false},
+        {"id": "d4", "name_kr": "리얼 딸기 주스", "name_en": "Real Strawberry Juice", "price": "5.0", "image": "/assets/menu/real_strawberry_juice.svg", "badge": null, "is_sold_out": false},
+        {"id": "d5", "name_kr": "제주 호지차", "name_en": "Jeju Hojicha Tea", "price": "3.9", "image": "/assets/menu/jeju_hojicha.svg", "badge": null, "is_sold_out": false},
+        {"id": "d6", "name_kr": "흑당 버블티", "name_en": "Brown Sugar Bubble Tea", "price": "5.2", "image": "/assets/menu/brownsugar_bubble_tea.svg", "badge": "BEST", "is_sold_out": false},
+        {"id": "d7", "name_kr": "더블 초코 버블티", "name_en": "Double Choco Bubble Tea", "price": "5.4", "image": "/assets/menu/double_choco_bubble_tea.svg", "badge": null, "is_sold_out": false},
+        {"id": "d8", "name_kr": "말차 버블티", "name_en": "Matcha Bubble Tea", "price": "5.4", "image": "/assets/menu/matcha_bubble_tea.svg", "badge": null, "is_sold_out": false},
+        {"id": "k1", "name_kr": "휘낭시에", "name_en": "Financier", "price": "2.8", "image": "/assets/menu/financier.svg", "badge": "BAKERY", "is_sold_out": false},
+        {"id": "k2", "name_kr": "스콘", "name_en": "Scone", "price": "3.5", "image": "/assets/menu/scone.svg", "badge": "BAKERY", "is_sold_out": false},
+        {"id": "k3", "name_kr": "버터떡", "name_en": "Butter Rice Cake", "price": "3.8", "image": "/assets/menu/butter_tteok.svg", "badge": "POPULAR", "is_sold_out": false},
+        {"id": "k4", "name_kr": "까눌레", "name_en": "Canelé", "price": "3.0", "image": "/assets/menu/canele.svg", "badge": "BAKERY", "is_sold_out": false},
+        {"id": "k5", "name_kr": "비스코티", "name_en": "Biscotti", "price": "2.5", "image": "/assets/menu/biscotti.svg", "badge": "BAKERY", "is_sold_out": false},
+        {"id": "k6", "name_kr": "펄솔트 휘낭시에", "name_en": "Pearl Salt Financier", "price": "2.8", "image": "/assets/menu/pearl_salt_financier.svg", "badge": "BAKERY", "is_sold_out": false},
+        {"id": "k7", "name_kr": "마카다미아 휘낭시에", "name_en": "Macadamia Financier", "price": "3.2", "image": "/assets/menu/macadamia_financier.svg", "badge": "BAKERY", "is_sold_out": false},
+        {"id": "k8", "name_kr": "허니 크리스피 휘낭시에", "name_en": "Honey Crispy Financier", "price": "3.0", "image": "/assets/menu/honey_crispy_financier.svg", "badge": "BAKERY", "is_sold_out": false},
+        {"id": "k9", "name_kr": "얼그레이 휘낭시에", "name_en": "Earl Grey Financier", "price": "3.0", "image": "/assets/menu/earlgrey_financier.svg", "badge": "BAKERY", "is_sold_out": false},
+        {"id": "k10", "name_kr": "무화과 크림치즈 휘낭시에", "name_en": "Fig Cream Cheese Financier", "price": "3.3", "image": "/assets/menu/fig_creamcheese_financier.svg", "badge": "BAKERY", "is_sold_out": false},
+        {"id": "k11", "name_kr": "오리지널 소금빵", "name_en": "Salt Bread", "price": "3.2", "image": "/assets/menu/salt_bread.svg", "badge": "POPULAR", "is_sold_out": false},
+        {"id": "k12", "name_kr": "발로나 르뱅쿠키", "name_en": "Valrhona Levain Cookie", "price": "3.8", "image": "/assets/menu/valrhona_cookie.svg", "badge": "BAKERY", "is_sold_out": false}
+      ]
+    }
+  ]
+}

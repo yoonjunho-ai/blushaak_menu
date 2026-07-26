@@ -262,6 +262,28 @@ function connectWebSocket() {
 }
 
 // HTTP Polling Fallback for Vercel Serverless / Cloud Hosting
+async function fetchConfig() {
+  try {
+    const res = await fetch('/api/config');
+    if (res.ok) {
+      currentMenuConfig = await res.json();
+      return currentMenuConfig;
+    }
+  } catch (err) {
+    console.warn('API config fetch failed, trying static /menu_config.json...');
+  }
+  try {
+    const res = await fetch('/menu_config.json');
+    if (res.ok) {
+      currentMenuConfig = await res.json();
+      return currentMenuConfig;
+    }
+  } catch (err) {
+    console.error('Failed to load menu config:', err);
+  }
+  return null;
+}
+
 setInterval(async () => {
   if (!socket || socket.readyState !== WebSocket.OPEN) {
     try {

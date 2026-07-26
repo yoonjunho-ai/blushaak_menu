@@ -229,6 +229,28 @@ async function uploadMenuImage(displayId, itemId) {
   }
 }
 
+async function fetchConfig() {
+  try {
+    const res = await fetch('/api/config');
+    if (res.ok) {
+      currentConfig = await res.json();
+      return currentConfig;
+    }
+  } catch (err) {
+    console.warn('API config fetch failed, trying static /menu_config.json...');
+  }
+  try {
+    const res = await fetch('/menu_config.json');
+    if (res.ok) {
+      currentConfig = await res.json();
+      return currentConfig;
+    }
+  } catch (err) {
+    console.error('Failed to load menu config:', err);
+  }
+  return null;
+}
+
 // Switch Screen Tabs
 function switchScreenTab(screenId) {
   activeScreenTab = screenId;
