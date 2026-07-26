@@ -1,5 +1,5 @@
 :root {
-  --bg-color: #F1F4F8;
+  --bg-color: #F5F3EF;
   --header-bg: #002B49;
   --header-text: #FFFFFF;
   --card-bg: #FFFFFF;
@@ -149,35 +149,35 @@ body {
   gap: 8px 12px;
 }
 
-/* Precise Height-Fitting Menu Card (No Card Box Border/Background) */
+/* Precise Height-Fitting Menu Card */
 .menu-card {
   position: relative;
-  background: transparent !important;
-  border-radius: 0 !important;
-  padding: 8px 10px;
+  background: #FFFFFF !important;
+  border-radius: 14px !important;
+  padding: 8px 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
   gap: 12px;
   text-align: left;
-  box-shadow: none !important;
-  border: none !important;
+  box-shadow: 0 3px 10px rgba(0, 43, 73, 0.05) !important;
+  border: 1px solid rgba(0, 43, 73, 0.08) !important;
   height: 100%;
-  overflow: visible;
-  transition: transform 0.25s ease;
+  overflow: hidden !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .menu-card.signature-item {
-  background: transparent !important;
-  border-color: transparent !important;
-  box-shadow: none !important;
+  background: linear-gradient(135deg, #FFFFFF 0%, #F4F8FE 100%) !important;
+  border-color: rgba(0, 102, 204, 0.25) !important;
+  box-shadow: 0 4px 14px rgba(0, 102, 204, 0.08) !important;
 }
 
 .menu-card-top {
   position: absolute;
-  top: 4px;
-  right: 6px;
+  top: 6px;
+  right: 8px;
   display: flex;
   gap: 4px;
   z-index: 5;
@@ -199,33 +199,34 @@ body {
 .badge.BAKERY { background: linear-gradient(135deg, #8B5CF6, #6D28D9); }
 .badge.POPULAR { background: linear-gradient(135deg, #EC4899, #BE185D); }
 
-/* Beverage Visual Area - Transparent Pure Cup fitting Card Height (Enlarged Visual) */
+/* Beverage Visual Area - Clean Studio Photo Framed Container */
 .menu-img-wrapper {
   position: relative;
-  width: 140px;
+  width: 105px;
   height: 100%;
-  max-height: 180px;
+  max-height: 155px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
+  background: #F5F3EF !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(0, 43, 73, 0.04) !important;
 }
 
 .menu-img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 6px 14px rgba(0, 43, 73, 0.12)) !important;
-  transform: scale(1.22);
+  object-fit: cover;
+  transform: none !important;
+  filter: none !important;
   transition: transform 0.3s ease;
+  border-radius: 10px;
 }
 
 .menu-card:hover .menu-img {
-  transform: scale(1.3) translateY(-2px);
+  transform: scale(1.06) !important;
 }
 
 /* Beverage Details Area */
@@ -240,7 +241,7 @@ body {
 }
 
 .menu-name-kr {
-  font-size: 1.45rem;
+  font-size: 1.35rem;
   font-weight: 900;
   color: var(--text-main);
   line-height: 1.2;
@@ -252,7 +253,7 @@ body {
 }
 
 .menu-name-en {
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   font-weight: 600;
   color: var(--text-muted);
   white-space: nowrap;
@@ -269,28 +270,26 @@ body {
 }
 
 .menu-price {
-  font-size: 1.65rem;
+  font-size: 1.55rem;
   font-weight: 900;
   color: var(--accent-blue);
   letter-spacing: -0.5px;
 }
 
 /* 15-Item Tuning */
-.grid-15 .menu-card { padding: 6px 8px; gap: 10px; }
-.grid-15 .menu-img-wrapper { width: 135px; max-height: 165px; }
-.grid-15 .menu-img { transform: scale(1.22); }
-.grid-15 .menu-name-kr { font-size: 1.35rem; }
-.grid-15 .menu-name-en { font-size: 0.82rem; }
-.grid-15 .menu-price { font-size: 1.55rem; }
+.grid-15 .menu-card { padding: 6px 10px; gap: 10px; border-radius: 12px !important; }
+.grid-15 .menu-img-wrapper { width: 100px; max-height: 145px; }
+.grid-15 .menu-name-kr { font-size: 1.3rem; }
+.grid-15 .menu-name-en { font-size: 0.8rem; }
+.grid-15 .menu-price { font-size: 1.5rem; }
 
-/* 18-Item Tuning (Maximized Drink Visuals & Clean No-Card Layout) */
-.grid-18 .menu-card { padding: 4px 6px; gap: 10px; }
-.grid-18 .menu-img-wrapper { width: 130px; max-height: 165px; }
-.grid-18 .menu-img { transform: scale(1.22); }
-.grid-18 .menu-name-kr { font-size: 1.3rem; letter-spacing: -0.5px; font-weight: 900; }
-.grid-18 .menu-name-en { font-size: 0.8rem; font-weight: 600; }
-.grid-18 .menu-price { font-size: 1.5rem; font-weight: 900; }
-.grid-18 .badge { padding: 3px 7px; font-size: 0.7rem; }
+/* 18-Item Tuning (Clean Framed JPG Photo Layout, Zero Overlap) */
+.grid-18 .menu-card { padding: 6px 8px; gap: 8px; border-radius: 12px !important; }
+.grid-18 .menu-img-wrapper { width: 90px; max-height: 135px; border-radius: 8px !important; }
+.grid-18 .menu-name-kr { font-size: 1.18rem; letter-spacing: -0.6px; font-weight: 900; }
+.grid-18 .menu-name-en { font-size: 0.75rem; font-weight: 600; }
+.grid-18 .menu-price { font-size: 1.4rem; font-weight: 900; }
+.grid-18 .badge { padding: 2px 6px; font-size: 0.65rem; }
 
 /* Sold Out Overlay */
 .menu-card.sold-out {
