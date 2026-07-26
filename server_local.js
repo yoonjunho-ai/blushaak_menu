@@ -125,6 +125,7 @@ app.post('/api/config/item-add', (req, res) => {
     price: (item && item.price) || '0.0',
     image: '/assets/menu/shaak_latte.svg',
     badge: (item && item.badge) || null,
+    nutrition: (item && item.nutrition) || { calories: 0, caffeine: 0 },
     is_sold_out: false
   };
 

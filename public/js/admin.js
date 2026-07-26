@@ -167,6 +167,9 @@ function renderMenuTable(screenId) {
     let imageSrc = item.image || '/assets/menu/shaak_latte.png';
     if (imageSrc.endsWith('.png')) imageSrc = imageSrc.replace('.png', '.svg');
 
+    const calVal = (item.nutrition && item.nutrition.calories !== undefined) ? item.nutrition.calories : '';
+    const cafVal = (item.nutrition && item.nutrition.caffeine !== undefined) ? item.nutrition.caffeine : '';
+
     tr.innerHTML = `
       <td>
         <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
@@ -178,7 +181,7 @@ function renderMenuTable(screenId) {
       <td><strong>${item.id}</strong></td>
       <td><input type="text" id="name_kr_${item.id}" value="${item.name_kr}" class="table-input" style="width: 140px;"></td>
       <td><input type="text" id="name_en_${item.id}" value="${item.name_en}" class="table-input" style="width: 150px;"></td>
-      <td><input type="text" id="price_${item.id}" value="${item.price}" class="table-input"></td>
+      <td><input type="text" id="price_${item.id}" value="${item.price}" class="table-input" style="width: 60px;"></td>
       <td>
         <select id="badge_${item.id}" class="table-select">
           <option value="" ${!item.badge ? 'selected' : ''}>None</option>
@@ -189,6 +192,8 @@ function renderMenuTable(screenId) {
           <option value="POPULAR" ${item.badge === 'POPULAR' ? 'selected' : ''}>POPULAR</option>
         </select>
       </td>
+      <td><input type="number" step="0.1" id="calories_${item.id}" value="${calVal}" class="table-input" style="width: 70px;" placeholder="kcal"></td>
+      <td><input type="number" step="0.1" id="caffeine_${item.id}" value="${cafVal}" class="table-input" style="width: 70px;" placeholder="mg"></td>
       <td>
         <label class="toggle-switch">
           <input type="checkbox" ${item.is_sold_out ? 'checked' : ''} onchange="toggleSoldOut(${screenId}, '${item.id}', ${item.is_sold_out})">
@@ -214,7 +219,7 @@ function addNewItemRow() {
     <td><em>신규</em></td>
     <td><input type="text" id="new_item_name_kr" class="table-input" style="width: 140px;" placeholder="한글 이름"></td>
     <td><input type="text" id="new_item_name_en" class="table-input" style="width: 150px;" placeholder="English Name"></td>
-    <td><input type="text" id="new_item_price" class="table-input" placeholder="3.5"></td>
+    <td><input type="text" id="new_item_price" class="table-input" style="width: 60px;" placeholder="3.5"></td>
     <td>
       <select id="new_item_badge" class="table-select">
         <option value="">None</option>
@@ -225,6 +230,8 @@ function addNewItemRow() {
         <option value="POPULAR">POPULAR</option>
       </select>
     </td>
+    <td><input type="number" step="0.1" id="new_item_calories" class="table-input" style="width: 70px;" placeholder="250"></td>
+    <td><input type="number" step="0.1" id="new_item_caffeine" class="table-input" style="width: 70px;" placeholder="150"></td>
     <td>-</td>
     <td>
       <button class="save-row-btn" onclick="createMenuItem(${activeScreenTab})">✅ 추가</button>
@@ -241,6 +248,11 @@ async function createMenuItem(displayId) {
   const name_en = document.getElementById('new_item_name_en').value.trim();
   const price = document.getElementById('new_item_price').value.trim();
   const badge = document.getElementById('new_item_badge').value;
+  const caloriesVal = document.getElementById('new_item_calories').value;
+  const caffeineVal = document.getElementById('new_item_caffeine').value;
+
+  const calories = caloriesVal !== '' ? parseFloat(caloriesVal) : 0;
+  const caffeine = caffeineVal !== '' ? parseFloat(caffeineVal) : 0;
 
   if (!name_kr) {
     alert('한글 메뉴 이름을 입력해주세요.');
@@ -253,7 +265,13 @@ async function createMenuItem(displayId) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         displayId,
-        item: { name_kr, name_en, price, badge: badge || null }
+        item: {
+          name_kr,
+          name_en,
+          price,
+          badge: badge || null,
+          nutrition: { calories, caffeine }
+        }
       })
     });
     const data = await res.json();
@@ -381,6 +399,11 @@ async function saveItemChanges(displayId, itemId) {
   const name_en = document.getElementById(`name_en_${itemId}`).value;
   const price = document.getElementById(`price_${itemId}`).value;
   const badgeVal = document.getElementById(`badge_${itemId}`).value;
+  const caloriesVal = document.getElementById(`calories_${itemId}`).value;
+  const caffeineVal = document.getElementById(`caffeine_${itemId}`).value;
+
+  const calories = caloriesVal !== '' ? parseFloat(caloriesVal) : 0;
+  const caffeine = caffeineVal !== '' ? parseFloat(caffeineVal) : 0;
 
   try {
     const res = await fetch('/api/config/item', {
@@ -393,7 +416,8 @@ async function saveItemChanges(displayId, itemId) {
           name_kr,
           name_en,
           price,
-          badge: badgeVal || null
+          badge: badgeVal || null,
+          nutrition: { calories, caffeine }
         }
       })
     });
