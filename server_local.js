@@ -108,6 +108,61 @@ app.post('/api/config/item', (req, res) => {
   res.json({ success: true, item });
 });
 
+// Add a brand-new menu item to a display
+app.post('/api/config/item-add', (req, res) => {
+  const { displayId, item } = req.body;
+  if (!menuConfig) return res.status(500).json({ error: 'Config not loaded' });
+
+  const display = menuConfig.displays.find(d => d.display_id === Number(displayId));
+  if (!display) return res.status(404).json({ error: 'Display not found' });
+
+  const newItem = {
+    id: `item_${Date.now()}`,
+    name_kr: (item && item.name_kr) || '새 메뉴',
+    name_en: (item && item.name_en) || 'New Item',
+    price: (item && item.price) || '0.0',
+    image: '/assets/menu/shaak_latte.svg',
+    badge: (item && item.badge) || null,
+    is_sold_out: false
+  };
+
+  display.items.push(newItem);
+  saveConfig(menuConfig);
+
+  broadcast({
+    event: 'MENU_UPDATE',
+    display_id: displayId,
+    displays: menuConfig.displays,
+    timestamp: Date.now()
+  });
+
+  res.json({ success: true, item: newItem });
+});
+
+// Remove a menu item from a display
+app.post('/api/config/item-delete', (req, res) => {
+  const { displayId, itemId } = req.body;
+  if (!menuConfig) return res.status(500).json({ error: 'Config not loaded' });
+
+  const display = menuConfig.displays.find(d => d.display_id === Number(displayId));
+  if (!display) return res.status(404).json({ error: 'Display not found' });
+
+  const idx = display.items.findIndex(i => i.id === itemId);
+  if (idx === -1) return res.status(404).json({ error: 'Item not found' });
+
+  display.items.splice(idx, 1);
+  saveConfig(menuConfig);
+
+  broadcast({
+    event: 'MENU_UPDATE',
+    display_id: displayId,
+    displays: menuConfig.displays,
+    timestamp: Date.now()
+  });
+
+  res.json({ success: true });
+});
+
 // Update ticker notice
 app.post('/api/config/ticker', (req, res) => {
   const { is_active, text } = req.body;

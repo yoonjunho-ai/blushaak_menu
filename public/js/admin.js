@@ -197,11 +197,103 @@ function renderMenuTable(screenId) {
       </td>
       <td>
         <button class="save-row-btn" onclick="saveItemChanges(${screenId}, '${item.id}')">💾 Save</button>
+        <button class="delete-row-btn" onclick="deleteMenuItem(${screenId}, '${item.id}', '${item.name_kr}')">🗑 삭제</button>
       </td>
     `;
 
     menuItemsTableBodyEl.appendChild(tr);
   });
+}
+
+// Append a blank, unsaved row for creating a new menu item
+function addNewItemRow() {
+  const tr = document.createElement('tr');
+  tr.className = 'new-item-row';
+  tr.innerHTML = `
+    <td><img src="/assets/menu/shaak_latte.svg" class="table-img" alt="신규 메뉴"></td>
+    <td><em>신규</em></td>
+    <td><input type="text" id="new_item_name_kr" class="table-input" style="width: 140px;" placeholder="한글 이름"></td>
+    <td><input type="text" id="new_item_name_en" class="table-input" style="width: 150px;" placeholder="English Name"></td>
+    <td><input type="text" id="new_item_price" class="table-input" placeholder="3.5"></td>
+    <td>
+      <select id="new_item_badge" class="table-select">
+        <option value="">None</option>
+        <option value="BEST">BEST</option>
+        <option value="NEW">NEW</option>
+        <option value="SEASONAL">SEASONAL</option>
+        <option value="BAKERY">BAKERY</option>
+        <option value="POPULAR">POPULAR</option>
+      </select>
+    </td>
+    <td>-</td>
+    <td>
+      <button class="save-row-btn" onclick="createMenuItem(${activeScreenTab})">✅ 추가</button>
+      <button class="delete-row-btn" onclick="this.closest('tr').remove()">✖ 취소</button>
+    </td>
+  `;
+  menuItemsTableBodyEl.appendChild(tr);
+  document.getElementById('new_item_name_kr').focus();
+}
+
+// Create a new menu item on the server, then re-render from the response
+async function createMenuItem(displayId) {
+  const name_kr = document.getElementById('new_item_name_kr').value.trim();
+  const name_en = document.getElementById('new_item_name_en').value.trim();
+  const price = document.getElementById('new_item_price').value.trim();
+  const badge = document.getElementById('new_item_badge').value;
+
+  if (!name_kr) {
+    alert('한글 메뉴 이름을 입력해주세요.');
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/config/item-add', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        displayId,
+        item: { name_kr, name_en, price, badge: badge || null }
+      })
+    });
+    const data = await res.json();
+    if (data.success) {
+      if (currentConfig) {
+        const display = currentConfig.displays.find(d => d.display_id === displayId);
+        if (display) display.items.push(data.item);
+      }
+      renderMenuTable(displayId);
+    } else {
+      alert(data.error || '메뉴 추가에 실패했습니다.');
+    }
+  } catch (err) {
+    console.error('Failed to add new menu item:', err);
+  }
+}
+
+// Delete a menu item after confirmation, then re-render from the response
+async function deleteMenuItem(displayId, itemId, itemName) {
+  if (!confirm(`"${itemName}" 항목을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.`)) return;
+
+  try {
+    const res = await fetch('/api/config/item-delete', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ displayId, itemId })
+    });
+    const data = await res.json();
+    if (data.success) {
+      if (currentConfig) {
+        const display = currentConfig.displays.find(d => d.display_id === displayId);
+        if (display) display.items = display.items.filter(i => i.id !== itemId);
+      }
+      renderMenuTable(displayId);
+    } else {
+      alert(data.error || '삭제에 실패했습니다.');
+    }
+  } catch (err) {
+    console.error('Failed to delete menu item:', err);
+  }
 }
 
 // Upload Menu Item Image

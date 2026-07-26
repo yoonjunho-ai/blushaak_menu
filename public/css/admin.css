@@ -381,9 +381,32 @@ input:checked + .slider { background-color: var(--success-green); }
 input:checked + .slider:before { transform: translateX(24px); }
 
 /* Tabs */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
 .screen-tabs {
   display: flex;
   gap: 6px;
+}
+
+.add-item-btn {
+  background: var(--success-green);
+  color: #FFFFFF;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s ease;
+}
+
+.add-item-btn:hover {
+  background: #0B9E6C;
 }
 
 .tab-btn {
@@ -458,6 +481,27 @@ input:checked + .slider:before { transform: translateX(24px); }
 .save-row-btn:hover {
   background: var(--success-green);
   color: #FFFFFF;
+}
+
+.delete-row-btn {
+  background: #FEE2E2;
+  color: var(--danger-red);
+  border: 1px solid #FECACA;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-left: 6px;
+}
+
+.delete-row-btn:hover {
+  background: var(--danger-red);
+  color: #FFFFFF;
+}
+
+.new-item-row {
+  background: #F0FDF4;
 }
 
 .upload-img-btn {
