@@ -1,6 +1,6 @@
 {
   "name": "blu-shaak-signage-was",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Blu Shaak Multi-Display Digital Signage Web Application Server",
   "main": "server.js",
   "type": "module",
