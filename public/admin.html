@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blu Shaak Signage CMS Admin Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- Top Header -->
+    <header class="admin-header">
+      <div class="admin-brand">
+        <img src="/assets/logo.svg" alt="Blu Shaak Logo" class="admin-logo">
+        <span class="admin-title">DIGITAL SIGNAGE CMS DASHBOARD</span>
+      </div>
+      <div class="admin-status">
+        <div id="ws-server-status" class="status-indicator online">
+          <span class="dot"></span> WAS Server Connected
+        </div>
+        <div id="admin-clock" class="admin-clock">00:00:00</div>
+      </div>
+    </header>
+
+    <!-- Main Admin Body -->
+    <div class="admin-body">
+      
+      <!-- Top Section: Screen Monitors & Loop Simulator -->
+      <section class="admin-grid-top">
+        
+        <!-- Connected Displays Monitor -->
+        <div class="admin-card screen-monitor-card">
+          <div class="card-header">
+            <h2>🖥️ Smart Display Live Monitor (4 Panels)</h2>
+            <span class="card-tag">Real-time WebSocket</span>
+          </div>
+          <div class="screens-grid">
+            <div class="screen-box" id="monitor-screen-1">
+              <div class="screen-box-header">
+                <span class="screen-num">DISPLAY #1</span>
+                <span class="screen-badge offline" id="badge-screen-1">OFFLINE</span>
+              </div>
+              <div class="screen-title-text">SIGNATURE & COFFEE</div>
+              <button class="preview-btn" onclick="openPreview(1)">🔍 Preview Window</button>
+            </div>
+
+            <div class="screen-box" id="monitor-screen-2">
+              <div class="screen-box-header">
+                <span class="screen-num">DISPLAY #2</span>
+                <span class="screen-badge offline" id="badge-screen-2">OFFLINE</span>
+              </div>
+              <div class="screen-title-text">BEVERAGE (LATTE & ADE)</div>
+              <button class="preview-btn" onclick="openPreview(2)">🔍 Preview Window</button>
+            </div>
+
+            <div class="screen-box" id="monitor-screen-3">
+              <div class="screen-box-header">
+                <span class="screen-num">DISPLAY #3</span>
+                <span class="screen-badge offline" id="badge-screen-3">OFFLINE</span>
+              </div>
+              <div class="screen-title-text">TEA & BLENDED</div>
+              <button class="preview-btn" onclick="openPreview(3)">🔍 Preview Window</button>
+            </div>
+
+            <div class="screen-box" id="monitor-screen-4">
+              <div class="screen-box-header">
+                <span class="screen-num">DISPLAY #4</span>
+                <span class="screen-badge offline" id="badge-screen-4">OFFLINE</span>
+              </div>
+              <div class="screen-title-text">SHAKE & DESSERT BAKERY</div>
+              <button class="preview-btn" onclick="openPreview(4)">🔍 Preview Window</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loop State & Speed Simulator Console -->
+        <div class="admin-card loop-simulator-card">
+          <div class="card-header">
+            <h2>⏱️ Cycle Loop State Machine</h2>
+            <span class="card-tag">60s State Clock</span>
+          </div>
+          <div class="loop-status-box">
+            <div class="current-phase-display">
+              <span class="phase-label">CURRENT PHASE:</span>
+              <span id="current-phase-badge" class="phase-badge menu">PHASE A: MENU BOARD</span>
+            </div>
+            <div class="progress-bar-wrapper">
+              <div id="cycle-progress-bar" class="progress-bar" style="width: 0%;"></div>
+            </div>
+            <div class="progress-time-text">
+              <span id="cycle-time-text">0s / 60s</span>
+            </div>
+          </div>
+
+          <div class="simulation-controls">
+            <div class="control-group">
+              <label>Loop Speed Multiplier:</label>
+              <div class="btn-group">
+                <button class="speed-btn active" onclick="setSpeed(1)">1x (Normal)</button>
+                <button class="speed-btn" onclick="setSpeed(2)">2x</button>
+                <button class="speed-btn" onclick="setSpeed(5)">5x</button>
+                <button class="speed-btn" onclick="setSpeed(10)">10x Fast</button>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label>Phase Force Trigger:</label>
+              <div class="btn-group">
+                <button class="action-btn" onclick="forcePhase('PHASE_A_MENU')">📋 Force Menu Board (40s)</button>
+                <button class="action-btn promo" onclick="forcePhase('PHASE_B_PROMO')">🎬 Force Promo Video (20s)</button>
+                <button id="pause-toggle-btn" class="action-btn pause" onclick="togglePause()">⏸️ Pause Loop</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Middle Section: Emergency Ticker Console -->
+      <section class="admin-section">
+        <div class="admin-card ticker-card">
+          <div class="card-header">
+            <h2>📢 Emergency Announcement Ticker Overlay</h2>
+            <span class="card-tag">Instant Broadcast</span>
+          </div>
+          <div class="ticker-form-row">
+            <label class="toggle-switch">
+              <input type="checkbox" id="ticker-active-toggle" onchange="updateTickerState()">
+              <span class="slider"></span>
+            </label>
+            <span class="toggle-label">Active Ticker Banner</span>
+
+            <input type="text" id="ticker-text-input" class="ticker-input" placeholder="매장 공지사항 또는 긴급 텍스트를 입력하세요 (예: 시그니처 샥 라떼 출시!)">
+            <button class="primary-btn" onclick="updateTickerState()">Broadcast Announcement</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Section: Live Menu & Sold Out Manager -->
+      <section class="admin-section">
+        <div class="admin-card menu-manager-card">
+          <div class="card-header">
+            <h2>☕ Live Menu Catalog & Sold Out Manager</h2>
+            <div class="screen-tabs">
+              <button class="tab-btn active" onclick="switchScreenTab(1)">Screen #1 (Signature)</button>
+              <button class="tab-btn" onclick="switchScreenTab(2)">Screen #2 (Beverage)</button>
+              <button class="tab-btn" onclick="switchScreenTab(3)">Screen #3 (Tea/Blended)</button>
+              <button class="tab-btn" onclick="switchScreenTab(4)">Screen #4 (Dessert)</button>
+            </div>
+          </div>
+
+          <div class="menu-table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Visual</th>
+                  <th>ID</th>
+                  <th>Menu Name (KR)</th>
+                  <th>Menu Name (EN)</th>
+                  <th>Price (천원)</th>
+                  <th>Badge</th>
+                  <th>Sold Out Toggle</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="menu-items-table-body">
+                <!-- Dynamically injected table rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom Section: Video & Image Campaign Upload Manager -->
+      <section class="admin-section">
+        <div class="admin-card video-manager-card">
+          <div class="card-header">
+            <h2>🎬 🖼️ 재생 순서 컨트롤러 & 미디어 캠페인 매니저 (Playlist Engine)</h2>
+          </div>
+
+          <!-- Playlist Presets Box -->
+          <div class="playlist-presets-wrapper">
+            <div class="preset-header">
+              <label><strong>🎯 재생 순서 프리셋 선택 (Preset Sequences):</strong></label>
+            </div>
+            <div class="preset-btn-group">
+              <button id="preset-btn-1" class="preset-btn active" onclick="applyPreset('MENU_VIDEO')">1️⃣ 메뉴(40초) ➔ 동영상(20초)</button>
+              <button id="preset-btn-2" class="preset-btn" onclick="applyPreset('MENU_POSTER_VIDEO')">2️⃣ 메뉴(40초) ➔ 포스터1(5초) ➔ 동영상(20초)</button>
+              <button id="preset-btn-3" class="preset-btn" onclick="applyPreset('MENU_VIDEO_POSTER')">3️⃣ 메뉴(40초) ➔ 동영상(20초) ➔ 포스터1(5초)</button>
+              <button id="preset-btn-4" class="preset-btn" onclick="applyPreset('MENU_POSTER1_VIDEO_POSTER2')">4️⃣ 메뉴(40초) ➔ 포스터1(5초) ➔ 동영상(20초) ➔ 포스터2(5초)</button>
+            </div>
+          </div>
+
+          <div class="video-upload-grid">
+            <div class="video-upload-box">
+              <h3>Display #1 Media</h3>
+              <p><strong>동영상:</strong> <span id="video-path-1">/assets/video/promo_screen_1.mp4</span></p>
+              <p><strong>포스터1:</strong> <span id="poster1-path-1">/assets/promo/promo_screen_1.svg</span></p>
+              <p><strong>포스터2:</strong> <span id="poster2-path-1">/assets/promo/promo_screen_1.svg</span></p>
+              
+              <input type="file" id="video-file-1" accept="video/mp4" style="display:none;" onchange="uploadVideo(1)">
+              <input type="file" id="poster1-file-1" accept="image/*" style="display:none;" onchange="uploadPromoPoster(1, 'images_poster_1')">
+              <input type="file" id="poster2-file-1" accept="image/*" style="display:none;" onchange="uploadPromoPoster(1, 'images_poster_2')">
+
+              <div class="btn-stack">
+                <button class="upload-btn" onclick="document.getElementById('video-file-1').click()">📁 동영상 Upload</button>
+                <button class="upload-btn img-upload" onclick="document.getElementById('poster1-file-1').click()">🖼️ 포스터 1 Upload</button>
+                <button class="upload-btn img-upload-2" onclick="document.getElementById('poster2-file-1').click()">🖼️ 포스터 2 Upload</button>
+              </div>
+            </div>
+
+            <div class="video-upload-box">
+              <h3>Display #2 Media</h3>
+              <p><strong>동영상:</strong> <span id="video-path-2">/assets/video/promo_screen_2.mp4</span></p>
+              <p><strong>포스터1:</strong> <span id="poster1-path-2">/assets/promo/promo_screen_2.svg</span></p>
+              <p><strong>포스터2:</strong> <span id="poster2-path-2">/assets/promo/promo_screen_2.svg</span></p>
+              
+              <input type="file" id="video-file-2" accept="video/mp4" style="display:none;" onchange="uploadVideo(2)">
+              <input type="file" id="poster1-file-2" accept="image/*" style="display:none;" onchange="uploadPromoPoster(2, 'images_poster_1')">
+              <input type="file" id="poster2-file-2" accept="image/*" style="display:none;" onchange="uploadPromoPoster(2, 'images_poster_2')">
+
+              <div class="btn-stack">
+                <button class="upload-btn" onclick="document.getElementById('video-file-2').click()">📁 동영상 Upload</button>
+                <button class="upload-btn img-upload" onclick="document.getElementById('poster1-file-2').click()">🖼️ 포스터 1 Upload</button>
+                <button class="upload-btn img-upload-2" onclick="document.getElementById('poster2-file-2').click()">🖼️ 포스터 2 Upload</button>
+              </div>
+            </div>
+
+            <div class="video-upload-box">
+              <h3>Display #3 Media</h3>
+              <p><strong>동영상:</strong> <span id="video-path-3">/assets/video/promo_screen_3.mp4</span></p>
+              <p><strong>포스터1:</strong> <span id="poster1-path-3">/assets/promo/promo_screen_3.svg</span></p>
+              <p><strong>포스터2:</strong> <span id="poster2-path-3">/assets/promo/promo_screen_3.svg</span></p>
+              
+              <input type="file" id="video-file-3" accept="video/mp4" style="display:none;" onchange="uploadVideo(3)">
+              <input type="file" id="poster1-file-3" accept="image/*" style="display:none;" onchange="uploadPromoPoster(3, 'images_poster_1')">
+              <input type="file" id="poster2-file-3" accept="image/*" style="display:none;" onchange="uploadPromoPoster(3, 'images_poster_2')">
+
+              <div class="btn-stack">
+                <button class="upload-btn" onclick="document.getElementById('video-file-3').click()">📁 동영상 Upload</button>
+                <button class="upload-btn img-upload" onclick="document.getElementById('poster1-file-3').click()">🖼️ 포스터 1 Upload</button>
+                <button class="upload-btn img-upload-2" onclick="document.getElementById('poster2-file-3').click()">🖼️ 포스터 2 Upload</button>
+              </div>
+            </div>
+
+            <div class="video-upload-box">
+              <h3>Display #4 Media</h3>
+              <p><strong>동영상:</strong> <span id="video-path-4">/assets/video/promo_screen_4.mp4</span></p>
+              <p><strong>포스터1:</strong> <span id="poster1-path-4">/assets/promo/promo_screen_4.svg</span></p>
+              <p><strong>포스터2:</strong> <span id="poster2-path-4">/assets/promo/promo_screen_4.svg</span></p>
+              
+              <input type="file" id="video-file-4" accept="video/mp4" style="display:none;" onchange="uploadVideo(4)">
+              <input type="file" id="poster1-file-4" accept="image/*" style="display:none;" onchange="uploadPromoPoster(4, 'images_poster_1')">
+              <input type="file" id="poster2-file-4" accept="image/*" style="display:none;" onchange="uploadPromoPoster(4, 'images_poster_2')">
+
+              <div class="btn-stack">
+                <button class="upload-btn" onclick="document.getElementById('video-file-4').click()">📁 동영상 Upload</button>
+                <button class="upload-btn img-upload" onclick="document.getElementById('poster1-file-4').click()">🖼️ 포스터 1 Upload</button>
+                <button class="upload-btn img-upload-2" onclick="document.getElementById('poster2-file-4').click()">🖼️ 포스터 2 Upload</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="/js/admin.js"></script>
+</body>
+</html>

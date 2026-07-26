@@ -1,0 +1,399 @@
+import express from 'express';
+import http from 'http';
+import { WebSocketServer, WebSocket } from 'ws';
+import fs from 'fs';
+import path from 'path';
+import multer from 'multer';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const CONFIG_PATH = path.join(__dirname, 'menu_config.json');
+const UPLOADS_DIR = path.join(__dirname, 'uploads');
+const PUBLIC_DIR = path.join(__dirname, 'public');
+
+if (!fs.existsSync(UPLOADS_DIR)) {
+  fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+}
+
+// Multer storage configuration for promo video uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, UPLOADS_DIR),
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    cb(null, `promo_${Date.now()}${ext}`);
+  }
+});
+const upload = multer({ storage });
+
+// Helper to load and save menu configuration
+function loadConfig() {
+  try {
+    const data = fs.readFileSync(CONFIG_PATH, 'utf-8');
+    return JSON.parse(data);
+  } catch (err) {
+    console.error('Error reading menu_config.json:', err);
+    return null;
+  }
+}
+
+function saveConfig(config) {
+  try {
+    fs.writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2), 'utf-8');
+  } catch (err) {
+    console.error('Error saving menu_config.json:', err);
+  }
+}
+
+let menuConfig = loadConfig();
+
+const app = express();
+app.use(express.json());
+app.use(express.static(PUBLIC_DIR));
+app.use('/uploads', express.static(UPLOADS_DIR));
+
+// Direct convenient short routes
+app.get('/display', (req, res) => {
+  res.sendFile(path.join(PUBLIC_DIR, 'display.html'));
+});
+
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(PUBLIC_DIR, 'admin.html'));
+});
+
+// REST APIs
+app.get('/api/config', (req, res) => {
+  res.json(menuConfig);
+});
+
+// Update item state (is_sold_out, price, badge, name_kr, etc.)
+app.post('/api/config/item', (req, res) => {
+  const { displayId, itemId, updates } = req.body;
+  if (!menuConfig) return res.status(500).json({ error: 'Config not loaded' });
+
+  const display = menuConfig.displays.find(d => d.display_id === Number(displayId));
+  if (!display) return res.status(404).json({ error: 'Display not found' });
+
+  const item = display.items.find(i => i.id === itemId);
+  if (!item) return res.status(404).json({ error: 'Item not found' });
+
+  Object.assign(item, updates);
+  saveConfig(menuConfig);
+
+  // Broadcast menu update via WebSocket
+  broadcast({
+    event: 'MENU_UPDATE',
+    display_id: displayId,
+    item_id: itemId,
+    displays: menuConfig.displays,
+    timestamp: Date.now()
+  });
+
+  res.json({ success: true, item });
+});
+
+// Update ticker notice
+app.post('/api/config/ticker', (req, res) => {
+  const { is_active, text } = req.body;
+  if (!menuConfig.system.ticker) {
+    menuConfig.system.ticker = {};
+  }
+  menuConfig.system.ticker.is_active = is_active;
+  if (text !== undefined) menuConfig.system.ticker.text = text;
+
+  saveConfig(menuConfig);
+
+  broadcast({
+    event: 'TICKER_UPDATE',
+    ticker: menuConfig.system.ticker,
+    timestamp: Date.now()
+  });
+
+  res.json({ success: true, ticker: menuConfig.system.ticker });
+});
+
+// Update simulation control (speed, pause, force phase)
+app.post('/api/config/simulation', (req, res) => {
+  const { speed_multiplier, is_paused, force_phase } = req.body;
+
+  if (speed_multiplier !== undefined) menuConfig.system.speed_multiplier = speed_multiplier;
+  if (is_paused !== undefined) menuConfig.system.is_paused = is_paused;
+
+  if (force_phase) {
+    if (force_phase === 'PHASE_A_MENU') {
+      cycleElapsedSec = 0;
+    } else if (force_phase === 'PHASE_B_PROMO') {
+      cycleElapsedSec = menuConfig.system.phase_a_duration_sec;
+    }
+  }
+
+  saveConfig(menuConfig);
+
+  broadcast({
+    event: 'SIMULATION_UPDATE',
+    system: menuConfig.system,
+    timestamp: Date.now()
+  });
+
+  res.json({ success: true, system: menuConfig.system });
+});
+
+// Multer storage for menu item images
+const menuImageStorage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, path.join(PUBLIC_DIR, 'assets', 'menu')),
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    const itemId = req.body.itemId || 'item';
+    cb(null, `${itemId}_${Date.now()}${ext}`);
+  }
+});
+const uploadMenuImg = multer({ storage: menuImageStorage });
+
+app.post('/api/upload-menu-image', uploadMenuImg.single('image'), (req, res) => {
+  const { displayId, itemId } = req.body;
+  if (!req.file) return res.status(400).json({ error: 'No image uploaded' });
+
+  const fileUrl = `/assets/menu/${req.file.filename}`;
+  const display = menuConfig.displays.find(d => d.display_id === Number(displayId));
+  if (!display) return res.status(404).json({ error: 'Display not found' });
+
+  const item = display.items.find(i => i.id === itemId);
+  if (!item) return res.status(404).json({ error: 'Item not found' });
+
+  item.image = fileUrl;
+  saveConfig(menuConfig);
+
+  broadcast({
+    event: 'MENU_UPDATE',
+    display_id: displayId,
+    item_id: itemId,
+    displays: menuConfig.displays,
+    timestamp: Date.now()
+  });
+
+  res.json({ success: true, imageUrl: fileUrl, item });
+});
+
+// Upload promo video for a screen
+app.post('/api/upload-promo', upload.single('video'), (req, res) => {
+  const screenId = Number(req.body.screenId) || 1;
+  if (!req.file) return res.status(400).json({ error: 'No video uploaded' });
+
+  const fileUrl = `/uploads/${req.file.filename}`;
+  const campaign = menuConfig.promotional_campaigns[0];
+  if (campaign && campaign.videos) {
+    campaign.videos[`screen_${screenId}`] = fileUrl;
+    saveConfig(menuConfig);
+
+    console.log(`🎬 Screen #${screenId} promo video updated to:`, fileUrl);
+
+    broadcast({
+      event: 'CAMPAIGN_UPDATE',
+      campaigns: menuConfig.promotional_campaigns,
+      promo_mode: menuConfig.system.promo_mode,
+      timestamp: Date.now()
+    });
+  }
+
+  res.json({ success: true, videoUrl: fileUrl });
+});
+
+// Upload promo poster image for a screen (Poster 1 or Poster 2)
+app.post('/api/upload-promo-image', uploadMenuImg.single('image'), (req, res) => {
+  const screenId = Number(req.body.screenId) || 1;
+  const posterKey = req.body.posterKey || 'images_poster_1'; // 'images_poster_1' or 'images_poster_2'
+  if (!req.file) return res.status(400).json({ error: 'No image uploaded' });
+
+  const fileUrl = `/assets/promo/${req.file.filename}`;
+  const campaign = menuConfig.promotional_campaigns[0];
+  if (!campaign) return res.status(500).json({ error: 'No campaign found' });
+  if (!campaign[posterKey]) campaign[posterKey] = {};
+
+  campaign[posterKey][`screen_${screenId}`] = fileUrl;
+  saveConfig(menuConfig);
+
+  console.log(`🖼️ Screen #${screenId} [${posterKey}] promo poster image updated to:`, fileUrl);
+
+  broadcast({
+    event: 'CAMPAIGN_UPDATE',
+    campaigns: menuConfig.promotional_campaigns,
+    timestamp: Date.now()
+  });
+
+  res.json({ success: true, imageUrl: fileUrl, posterKey });
+});
+
+// Toggle Promo Mode (VIDEO vs IMAGE)
+app.post('/api/config/promo-mode', (req, res) => {
+  const { promo_mode, promo_image_duration_sec } = req.body;
+  if (promo_mode) menuConfig.system.promo_mode = promo_mode;
+  if (promo_image_duration_sec) menuConfig.system.promo_image_duration_sec = Number(promo_image_duration_sec);
+
+  saveConfig(menuConfig);
+
+  broadcast({
+    event: 'SIMULATION_UPDATE',
+    system: menuConfig.system,
+    timestamp: Date.now()
+  });
+
+  res.json({ success: true, system: menuConfig.system });
+});
+
+const server = http.createServer(app);
+const wss = new WebSocketServer({ server, path: '/ws' });
+
+// Track connected clients & state machine loop variables
+const clients = new Map();
+let cycleElapsedSec = 0;
+let currentPhase = 'PHASE_A_MENU';
+let phaseElapsedSec = 0;
+
+wss.on('connection', (ws, req) => {
+  const urlParams = new URLSearchParams(req.url.split('?')[1]);
+  const displayId = urlParams.get('id') || '1';
+  const clientType = urlParams.get('type') || 'display'; // 'display' or 'admin'
+
+  const clientId = `client_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`;
+  clients.set(ws, { clientId, displayId, clientType, ip: req.socket.remoteAddress });
+
+  console.log(`🔌 Client connected: [Type: ${clientType}, DisplayID: ${displayId}]`);
+
+  // Send initial state to newly connected client
+  ws.send(JSON.stringify({
+    event: 'INIT_STATE',
+    timestamp: Date.now(),
+    config: menuConfig,
+    current_phase: currentPhase,
+    phase_elapsed_sec: phaseElapsedSec,
+    cycle_elapsed_sec: cycleElapsedSec
+  }));
+
+  // Send client list update to admin clients
+  broadcastClientStatus();
+
+  ws.on('message', (message) => {
+    try {
+      const data = JSON.parse(message);
+      if (data.event === 'PING') {
+        ws.send(JSON.stringify({ event: 'PONG', timestamp: Date.now() }));
+      }
+    } catch (e) {
+      console.error('Invalid WS payload:', e);
+    }
+  });
+
+  ws.on('close', () => {
+    console.log(`❌ Client disconnected: [ID: ${clientId}]`);
+    clients.delete(ws);
+    broadcastClientStatus();
+  });
+});
+
+function broadcast(data) {
+  const jsonStr = JSON.stringify(data);
+  for (const [ws] of clients) {
+    if (ws.readyState === WebSocket.OPEN) {
+      ws.send(jsonStr);
+    }
+  }
+}
+
+function broadcastClientStatus() {
+  const connectedDisplays = [];
+  for (const [, info] of clients) {
+    connectedDisplays.push({
+      clientId: info.clientId,
+      displayId: info.displayId,
+      clientType: info.clientType
+    });
+  }
+
+  broadcast({
+    event: 'CLIENT_STATUS',
+    clients: connectedDisplays,
+    timestamp: Date.now()
+  });
+}
+
+// Playlist Sequence Config Update
+app.post('/api/config/playlist', (req, res) => {
+  const { playlist_sequence } = req.body;
+  if (playlist_sequence) {
+    menuConfig.system.playlist_sequence = playlist_sequence;
+    saveConfig(menuConfig);
+
+    broadcast({
+      event: 'SIMULATION_UPDATE',
+      system: menuConfig.system,
+      timestamp: Date.now()
+    });
+  }
+
+  res.json({ success: true, playlist_sequence: menuConfig.system.playlist_sequence });
+});
+
+// Main Loop Clock (1 second interval)
+setInterval(() => {
+  if (!menuConfig) return;
+
+  const isPaused = menuConfig.system.is_paused || false;
+  const speed = menuConfig.system.speed_multiplier || 1;
+
+  // Filter active enabled playlist steps
+  const rawSequence = menuConfig.system.playlist_sequence || [
+    { id: 'step_menu', type: 'MENU', name: '메뉴판', duration_sec: 40, enabled: true },
+    { id: 'step_video', type: 'VIDEO', name: '프로모션 동영상', duration_sec: 20, enabled: true }
+  ];
+  const activeSteps = rawSequence.filter(s => s.enabled !== false);
+  if (activeSteps.length === 0) {
+    activeSteps.push({ id: 'fallback', type: 'MENU', name: '메뉴판', duration_sec: 40, enabled: true });
+  }
+
+  const totalCycleSec = activeSteps.reduce((sum, s) => sum + (s.duration_sec || 5), 0);
+
+  if (!isPaused) {
+    cycleElapsedSec += (1 * speed);
+    if (cycleElapsedSec >= totalCycleSec) {
+      cycleElapsedSec = cycleElapsedSec % totalCycleSec;
+    }
+  }
+
+  // Calculate current active step in playlist
+  let accumulated = 0;
+  let activeStep = activeSteps[0];
+  let stepElapsedSec = 0;
+
+  for (const step of activeSteps) {
+    const stepDuration = step.duration_sec || 5;
+    if (cycleElapsedSec >= accumulated && cycleElapsedSec < accumulated + stepDuration) {
+      activeStep = step;
+      stepElapsedSec = cycleElapsedSec - accumulated;
+      break;
+    }
+    accumulated += stepDuration;
+  }
+
+  // Broadcast SYNC_STATE payload to all display clients
+  broadcast({
+    event: 'SYNC_STATE',
+    timestamp: Date.now(),
+    active_step: activeStep,
+    step_elapsed_sec: Math.floor(stepElapsedSec),
+    cycle_elapsed_sec: Math.floor(cycleElapsedSec),
+    total_cycle_sec: totalCycleSec,
+    speed_multiplier: speed,
+    is_paused: isPaused,
+    data_version: `v1.1`
+  });
+}, 1000);
+
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`=================================================`);
+  console.log(`🚀 Blu Shaak Signage WAS Server running on port ${PORT}`);
+  console.log(`🖥️  Display screens: http://localhost:${PORT}/display?id=1..4`);
+  console.log(`⚙️  Admin Dashboard: http://localhost:${PORT}/admin`);
+  console.log(`=================================================`);
+});

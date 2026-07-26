@@ -1,0 +1,5 @@
+node_modules/
+.DS_Store
+*.log
+uploads/promo_*.mp4
+uploads/poster_*.png
