@@ -1,9 +1,8 @@
 {
   "name": "blu-shaak-signage-was",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Blu Shaak Multi-Display Digital Signage Web Application Server",
   "main": "server.js",
-  "type": "module",
   "scripts": {
     "start": "node server.js",
     "generate-assets": "node generate_assets.js"

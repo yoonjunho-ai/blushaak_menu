@@ -1,13 +1,9 @@
-import express from 'express';
-import http from 'http';
-import { WebSocketServer, WebSocket } from 'ws';
-import fs from 'fs';
-import path from 'path';
-import multer from 'multer';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const express = require('express');
+const http = require('http');
+const { WebSocketServer, WebSocket } = require('ws');
+const fs = require('fs');
+const path = require('path');
+const multer = require('multer');
 
 const CONFIG_PATH = path.join(__dirname, 'menu_config.json');
 
@@ -329,7 +325,7 @@ function broadcast(data) {
   }
 }
 
-// ONLY initialize standalone HTTP Server & WebSocketServer when running locally (NOT on Vercel serverless)
+// ONLY initialize standalone HTTP Server & WebSocketServer when running locally
 if (!process.env.VERCEL) {
   const server = http.createServer(app);
   const wss = new WebSocketServer({ server, path: '/ws' });
@@ -387,4 +383,4 @@ if (!process.env.VERCEL) {
   });
 }
 
-export default app;
+module.exports = app;
