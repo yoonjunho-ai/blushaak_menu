@@ -5,32 +5,41 @@ const path = require('path');
 const app = express();
 app.use(express.json());
 
-const CONFIG_PATH = path.join(__dirname, '..', 'menu_config.json');
-
-function loadConfig() {
-  try {
-    const data = fs.readFileSync(CONFIG_PATH, 'utf-8');
-    return JSON.parse(data);
-  } catch (err) {
-    return null;
-  }
+// Directly require menu_config.json to guarantee Vercel NFT bundling
+let initialConfig;
+try {
+  initialConfig = require('../menu_config.json');
+} catch (e) {
+  initialConfig = { displays: [], system: {}, promotional_campaigns: [] };
 }
 
-let menuConfig = loadConfig();
+let menuConfig = initialConfig;
+
+function getActiveConfig() {
+  try {
+    const configPath = path.join(process.cwd(), 'menu_config.json');
+    if (fs.existsSync(configPath)) {
+      return JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+    }
+  } catch (e) {
+    // fallback to bundled in-memory config
+  }
+  return menuConfig || initialConfig;
+}
 
 // REST APIs for Vercel Serverless
 app.get('/api/config', (req, res) => {
-  res.json(loadConfig() || menuConfig);
+  res.json(getActiveConfig());
 });
 
 app.get('/api/sync-state', (req, res) => {
-  const config = loadConfig() || menuConfig;
+  const config = getActiveConfig();
   if (!config) return res.status(500).json({ error: 'Config not loaded' });
 
-  const isPaused = config.system.is_paused || false;
-  const speed = config.system.speed_multiplier || 1;
+  const isPaused = config.system ? config.system.is_paused : false;
+  const speed = config.system ? config.system.speed_multiplier : 1;
 
-  const rawSequence = config.system.playlist_sequence || [
+  const rawSequence = (config.system && config.system.playlist_sequence) ? config.system.playlist_sequence : [
     { id: 'step_menu', type: 'MENU', name: '메뉴판', duration_sec: 40, enabled: true },
     { id: 'step_video', type: 'VIDEO', name: '프로모션 동영상', duration_sec: 20, enabled: true }
   ];
@@ -73,8 +82,8 @@ app.get('/api/sync-state', (req, res) => {
 
 app.post('/api/config/item', (req, res) => {
   const { displayId, itemId, updates } = req.body;
-  const config = loadConfig() || menuConfig;
-  if (!config) return res.status(500).json({ error: 'Config not loaded' });
+  const config = getActiveConfig();
+  if (!config || !config.displays) return res.status(500).json({ error: 'Config not loaded' });
 
   const display = config.displays.find(d => d.display_id === Number(displayId));
   if (!display) return res.status(404).json({ error: 'Display not found' });
@@ -89,7 +98,8 @@ app.post('/api/config/item', (req, res) => {
 
 app.post('/api/config/ticker', (req, res) => {
   const { is_active, text } = req.body;
-  const config = loadConfig() || menuConfig;
+  const config = getActiveConfig();
+  if (!config.system) config.system = {};
   if (!config.system.ticker) config.system.ticker = {};
   config.system.ticker.is_active = is_active;
   if (text !== undefined) config.system.ticker.text = text;
@@ -99,7 +109,8 @@ app.post('/api/config/ticker', (req, res) => {
 
 app.post('/api/config/simulation', (req, res) => {
   const { speed_multiplier, is_paused } = req.body;
-  const config = loadConfig() || menuConfig;
+  const config = getActiveConfig();
+  if (!config.system) config.system = {};
   if (speed_multiplier !== undefined) config.system.speed_multiplier = speed_multiplier;
   if (is_paused !== undefined) config.system.is_paused = is_paused;
   menuConfig = config;
@@ -108,7 +119,8 @@ app.post('/api/config/simulation', (req, res) => {
 
 app.post('/api/config/playlist', (req, res) => {
   const { playlist_sequence } = req.body;
-  const config = loadConfig() || menuConfig;
+  const config = getActiveConfig();
+  if (!config.system) config.system = {};
   if (playlist_sequence) {
     config.system.playlist_sequence = playlist_sequence;
   }

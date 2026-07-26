@@ -1,6 +1,11 @@
 {
   "version": 2,
   "cleanUrls": true,
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "menu_config.json"
+    }
+  },
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/index.js" },
     { "src": "/display", "dest": "/public/display.html" },
